@@ -44,14 +44,14 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
 
             <script 
-                src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" 
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+                src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
                 crossorigin="anonymous"
             ></script>
 
             <script 
-                src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+                src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" 
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
                 crossorigin="anonymous"
             ></script>
 
@@ -78,6 +78,11 @@
                             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
+                    {% if app.user %}
+                        <a href= "{{ path('app_acount')}}" >Mon compte</a><a href= "{{ path('app_logout')}}" >Déconnexion</a>
+                    {% else %}
+                    <a href= "{{ path('app_login')}}" >Connexion</a><a href= "{{ path('app_register')}}" >Inscription</a>
+                    {% endif %}
                     <form class="form-inline mt-2 mt-md-0">
                         <input class="form-control mr-sm-2" type="text" placeholder="Votre recherche" aria-label="Search">
                         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>

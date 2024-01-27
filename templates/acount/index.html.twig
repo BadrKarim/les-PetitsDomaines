@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte Les Petits Domaines{% endblock %}
+
+{% block content %}
+    <h1>Mon compte</h1>
+    <p>bienvenue {{ app.user.firstname }} dans votre compte.</p>
+    {# {{ dump(app.user.firstename) }} #}
+    <hr>
+    
+{% endblock %}
