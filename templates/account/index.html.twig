@@ -7,5 +7,6 @@
     <p>bienvenue {{ app.user.firstname }} dans votre compte.</p>
     {# {{ dump(app.user.firstename) }} #}
     <hr>
-    
+    <a href="{{ path('app_account_password') }}" >-Modifier mot de passe</a>
+
 {% endblock %}
