@@ -9,7 +9,9 @@
         {% for product in products %}
             <div class="col-md-4">
                 <div class="product-item" text="center">
-                    <img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid">
+                    <a href="{{ path('app_product', { 'slug' : product.slug })}}">
+                        <img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid">
+                    </a>
                     <h5>{{ product.name }}</h5>
                     <span class="product-subtitle">{{ product.subTitle }}</span>
                     <span class="product-price">{{ (product.price / 100)|number_format(2, ',','.') }} €</span>
