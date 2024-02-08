@@ -1,6 +1,6 @@
 # LES PETITS DOMAINES
 
-Site E-Commerce de vente de produits alimentaire BIO
+Site E-Commerce de vente de produits alimentaires BIO
 
 ## DATABASE
 
