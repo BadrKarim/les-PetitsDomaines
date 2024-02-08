@@ -22,7 +22,6 @@ class ProductCrudController extends AbstractCrudController
     {
         return [
                 TextField::new( 'name'),
-                //Slug à partir du name
                 SlugField::new( 'slug')->setTargetFieldName( 'name' ),
                 ImageField::new( 'illustration' )
                     ->setBasePath( 'illustrations/' )

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Petits Domaines{% endblock %}
+
+{% block content %}
+    <h1>Nos produits</h1>
+
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4">
+                <div class="product-item" text="center">
+                    <img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid">
+                    <h5>{{ product.name }}</h5>
+                    <span class="product-subtitle">{{ product.subTitle }}</span>
+                    <span class="product-price">{{ (product.price / 100)|number_format(2, ',','.') }} €</span>
+                </div>
+        {# {{ dump(product)}} #}
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
