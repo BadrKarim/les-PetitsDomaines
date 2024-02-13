@@ -40,3 +40,8 @@ body {
     font-size: 25px;
     font-weight: bold;
 }
+
+.cart-icon {
+    height: 20px;
+    padding-left: 20px;
+}
