@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Address;
+use App\Form\AddressType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class AccountAddressController extends AbstractController
+{
+
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
+    #[Route('/compte/adresses', name: 'app_account_address')]
+    public function index(): Response
+    {
+        //dd($this->getUser());
+        return $this->render('account/address.html.twig', [
+            'controller_name' => 'AccountAddressController',
+        ]);
+    }
+
+    #[Route('/compte/add/adresses', name: 'app_account_add_address')]
+    public function add(Request $request): Response
+    {
+
+
+        $address = new Address();
+        $formAddress = $this->createForm(AddressType::class, $address);
+
+        $formAddress->handleRequest($request);
+    
+        if ($formAddress->isSubmitted() && $formAddress->isValid()) {
+
+            
+            $address->setUser($this->getUser());
+            
+            $this->entityManager->persist($address);
+            $this->entityManager->flush();
+            //dd($address);
+            return $this->redirectToRoute('app_account_address');
+            
+        }
+
+        return $this->render('account/addaddress.html.twig', [
+            'formAddress' => $formAddress->createView()
+        ]);
+    }
+}

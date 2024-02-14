@@ -7,6 +7,7 @@
     <p>bienvenue {{ app.user.firstname }} dans votre compte.</p>
     {# {{ dump(app.user.firstename) }} #}
     <hr>
-    <a href="{{ path('app_account_password') }}" >-Modifier mot de passe</a>
+    <a href="{{ path('app_account_password') }}" >-Modifier mot de passe</a><br/>
+    <a href="{{ path('app_account_address') }}" >-Gérer mes adresses</a><br/>
 
 {% endblock %}
