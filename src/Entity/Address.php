@@ -61,6 +61,12 @@ class Address
         return $this;
     }
 
+    //proposer les adresse du user dans la commande
+    public function __toString()
+    {
+        return $this->getName() . '[br]' . $this->getAddress() . '[br]' . $this->getCity() . '[br]' . '-' . $this->getCountry();
+    }
+
     public function getName(): ?string
     {
         return $this->name;

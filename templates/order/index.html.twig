@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande - Les Petits Domaines{% endblock %}
+
+{% block content %}
+
+    <h1> Je passe ma commande </h1>
+    <p> Choisissez vos préferences avant de passer votre commande sur les petits domaines</p>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+
+            <b>Choisir mon adresse</b><br/>
+            {% set formhtml %} 
+
+                {{ form(formOrder) }}
+
+            {% endset %} 
+
+             {{ formhtml|replace({'[br]' : '<br/>'})|raw }}
+
+            <b>Choisir mon Transporteur</b>
+
+        </div>  
+        <div class="col-md-6">
+
+            <b>Récap de ma commande</b><br/>
+            <b>Bouton pour payer</b>
+
+        </div>
+    </div>
+
+{% endblock %}
