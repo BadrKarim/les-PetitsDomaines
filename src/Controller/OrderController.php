@@ -13,6 +13,7 @@ class OrderController extends AbstractController
     public function index(): Response
     {
         //dd($this->getUser()->getAddresses()->getValues());
+        // si user n'a pas d'adresse redirige vers aad address
         if (!$this->getUser()->getAddresses()->getValues()) {
             return $this->redirectToRoute('app_account_add_address');
         }
