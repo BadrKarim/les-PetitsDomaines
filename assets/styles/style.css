@@ -50,3 +50,21 @@ body {
     max-width: 600px;
     margin: 0 auto;
 }
+
+/* html de la commande */
+.for-check {
+    background-color: #f4f4f4;
+    padding: 20px 65px;
+    margin-top: 7px;
+}
+
+/* html de la commande */
+.col-form-label {
+    font-weight: bold;
+}
+
+.order-summary {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-top: 22px;
+}
