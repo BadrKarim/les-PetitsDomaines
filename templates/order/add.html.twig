@@ -10,17 +10,8 @@
     <div class="row">
         <div class="col-md-6">
 
-            {% set formhtml %} 
-            {# {{ dump(formOrder) }} #}
-                {{ form_start(formOrder, { action:path('app_order_recap') }) }}
-                {{ form_end(formOrder) }}
-
-            {% endset %} 
-
-
-             {{ formhtml|replace({'[br]' : '<br/>'})|raw }}
-
-            
+        mon adresse de livraison<br/>
+        mon transporteur
 
         </div>  
 
@@ -34,25 +25,40 @@
 
             {# {{ dump(cart) }} #}
             <div class="order-summary">
+            {% set total = null %}
             {% for key, product in cart %} 
+            {# {{ dump(product) }} #}
                         <div class="row {% if key > 0 %} m-t2 {% endif %}">
                             <div class="col-2"> 
                                 <img src=" /illustrations/{{ product.product.illustration }} " alt=" {{ product.product.name }} " height="75px">
                             </div>
                             <div class="col-8 my-auto">
                                 {{ product.product.name }}<br>
-                                <small>{{ product.product.subtitle }}</small>
+                                <small>
+                                    {{ product.product.subtitle }}
+                                    <br/>
+                                    x {{ product.quantity }}
+                                </small>
                             </div>
-                            <div class="col-2 my-auto">
-                                x {{ product.quantity }}
+                            <div class"col-2 my-auto">
+                                {{ (product.product.price * product.quantity / 100)|number_format(2, ',','.') }} €
                             </div>
                         </div>
-
-
+                     {% set total = total + (product.product.price * product.quantity) %}
             {% endfor %}
             </div>
+            {# {{ dump(carrier) }} #}
+            <hr>
+
+
+            <strong>Sous-Total : {{ (total / 100)|number_format(2, ',','.') }} €</strong><br/>
+
+            {# <strong>Livraison : {{ carriers.carrier.price|number_format(2, ',','.') }} €</strong> #}
+
+            <hr>
+            <strong>Total : </strong>
             
-            <b>Bouton pour payer</b>
+            <a href="" class="btn btn-success btn-block mt-3">Payer</a>
 
         </div>
     </div>
