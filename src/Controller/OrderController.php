@@ -43,7 +43,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/recapitulatif', name: 'app_order_recap')]
+    #[Route('/commande/recapitulatif', name: 'app_order_recap', methods: "POST")]
     public function add(Cart $cart, Request $request): Response
     {
 
@@ -99,13 +99,15 @@ class OrderController extends AbstractController
             }
 
             //$this->entityManager->flush();
-            return $this->redirectToRoute('app_order_recap');
-
+            
+            return $this->render('order/add.html.twig', [
+                'cart' => $cart->getFull(),
+                'carrier' => $carriers,
+                'delivery' => $delivry_content
+            ]);
         }
 
+        //return $this->redirectToRoute('cart');
 
-        return $this->render('order/add.html.twig', [
-            'cart' => $cart->getFull()
-        ]);
     }
 }

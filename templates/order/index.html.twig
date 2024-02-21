@@ -9,10 +9,12 @@
     <hr>
     <div class="row">
         <div class="col-md-6">
-
-            {% set formhtml %} 
             {# {{ dump(formOrder) }} #}
+            {% set formhtml %} 
+            
                 {{ form_start(formOrder, { action:path('app_order_recap') }) }}
+                    {{ form_label(formOrder.addresses, 'Choisissez votre adresse de livraison')}}
+                    <a hrf="{{ path('app_account_add_address')}}">Ajouter une nouvelle adresse</a>
                 {{ form_end(formOrder) }}
 
             {% endset %} 
