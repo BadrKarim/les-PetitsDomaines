@@ -10,17 +10,18 @@
     <div class="row">
         <div class="col-md-6">
             {# {{ dump(formOrder) }} #}
-            {% set formhtml %} 
+            {# {% set formhtml %}  #}
             
-                {{ form_start(formOrder, { action:path('app_order_recap') }) }}
+                {{ form_start(formOrder) }}
                     {{ form_label(formOrder.addresses, 'Choisissez votre adresse de livraison')}}
-                    <a hrf="{{ path('app_account_add_address')}}">Ajouter une nouvelle adresse</a>
+                    <a hrf="{{ path('add_address')}}">Ajouter une nouvelle adresse</a>
                 {{ form_end(formOrder) }}
 
-            {% endset %} 
+            {# {% endset %}  #}
 
 
-             {{ formhtml|replace({'[br]' : '<br/>'})|raw }}
+             {# {{ formhtml|replace({'[br]' : '<br/>'})|raw }} #}
+             {# {{ form_raw(formOrder.addresses)|replace({'[br]' : '<br/>'})|raw}} #}
 
             
 

@@ -20,7 +20,7 @@ class ProductController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/nos-produits', name: 'app_products')]
+    #[Route('/nos-produits', name: 'products')]
     public function index(Request $request): Response
     {
 
@@ -42,7 +42,7 @@ class ProductController extends AbstractController
         ]);
     }
     
-    #[Route('/produit/{slug}', name: 'app_product')]
+    #[Route('/produit/{slug}', name: 'item_product')]
     public function show($slug): Response
     {
         //dd($slug);

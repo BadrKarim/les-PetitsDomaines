@@ -12,7 +12,7 @@ class CartController extends AbstractController
 {
 
 
-    #[Route('/mon-panier', name: 'app_cart')]
+    #[Route('/mon-panier', name: 'cart')]
     public function index(Cart $cart): Response
     {
         // Récupérer les éléments complets du panier
@@ -22,7 +22,7 @@ class CartController extends AbstractController
         ]);
     }
 
-    #[Route('/cart/add/{id}', name: 'app_addCart')]
+    #[Route('/mon-panier/add/{id}', name: 'add_cart')]
     public function add(Cart $cart, $id): Response
     {
         //dd($id);
@@ -30,33 +30,33 @@ class CartController extends AbstractController
         // Ajoutez un produit au panier
         $cart->add($id);
 
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('cart');
     }
 
-    #[Route('/cart/remove', name: 'app_remove_my_cart')]
+    #[Route('/mon-panier/remove', name: 'remove_cart')]
     public function remove(Cart $cart): Response
     {
         // Retirez tous les produits du panier
         $cart->remove();
 
-        return $this->redirectToRoute('app_products');
+        return $this->redirectToRoute('products');
     }
 
-    #[Route('/cart/delete/{id}', name: 'app_delete_to_cart')]
+    #[Route('/mon-panier/delete/{id}', name: 'delete_cart')]
     public function delete(Cart $cart, $id): Response
     {
         // Retirez un produit du panier
         $cart->delete($id);
 
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('cart');
     }
 
-    #[Route('/cart/decrease/{id}', name: 'app_decrease_to_cart')]
+    #[Route('/mon-panier/decrease/{id}', name: 'decrease_cart')]
     public function decrease(Cart $cart, $id): Response
     {
         
         $cart->decrease($id);
 
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('cart');
     }
 }

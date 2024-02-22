@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon compte Les Petits Domaines{% endblock %}
+{% block title %}Mon compte - Les Petits Domaines{% endblock %}
 
 {% block content %}
-    <h1>Mon compte</h1>
-    <p>bienvenue {{ app.user.firstname }} dans votre compte.</p>
+
     {# {{ dump(app.user.firstename) }} #}
+    <h1>Mon compte - Les Petits Domaines</h1>
+    <h2>Bienvenue {{ app.user.firstname }} dans votre compte.</h2>
+    
     <hr>
-    <a href="{{ path('app_account_password') }}" >-Modifier mot de passe</a><br/>
-    <a href="{{ path('app_account_address') }}" >-Gérer mes adresses</a><br/>
+    
+    <a href="{{ path('password') }}">-Modifier mot de passe</a><br/>
+    <a href="{{ path('address') }}">-Gérer mes adresses</a><br/>
 
 {% endblock %}

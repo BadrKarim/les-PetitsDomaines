@@ -22,7 +22,7 @@ class OrderController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/commande', name: 'app_order')]
+    #[Route('/commande', name: 'order')]
     public function index(Cart $cart): Response
     {
         //dd($this->getUser()->getAddresses()->getValues());
@@ -30,6 +30,11 @@ class OrderController extends AbstractController
         if (!$this->getUser()->getAddresses()->getValues()) {
             return $this->redirectToRoute('app_account_add_address');
         }
+
+        // si le panier est vide ne pas acceder à cette page
+        // if (!$this->getUser()->getAddresses()->getValues()) {
+        //     return $this->redirectToRoute('app_account_add_address');
+        // }
 
         $formOrder = $this->createForm(OrderType::class, null, [
             // deuxiéme papram null du createForm, car OrederType n'est pas lié à une class
@@ -43,7 +48,7 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/recapitulatif', name: 'app_order_recap', methods: "POST")]
+    #[Route('/commande/recap', name: 'recap_order', methods: "POST")]
     public function add(Cart $cart, Request $request): Response
     {
 

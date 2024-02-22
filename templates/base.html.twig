@@ -65,39 +65,37 @@
 
     </head>
     <body>
-        
         <header>
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <a class="navbar-brand" href="{{ path('app_home') }}">Les Petits Domaines</a>
+                <a class="navbar-brand" href="{{ path('home') }}">Les Petits Domaines</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('app_products') }}">Nos produits<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ path('products') }}">Nos produits<span class="sr-only">(current)</span></a>
                         </li>
                                                 <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('app_home') }}">Qui sommes-nous<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ path('home') }}">Qui sommes-nous<span class="sr-only">(current)</span></a>
                         </li>
                                                 <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('app_home') }}">Contact<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="{{ path('home') }}">Contact<span class="sr-only">(current)</span></a>
                         </li>
                     </ul>
                     <div class="navbar-item-custom">
                         {% if app.user %}
-                            <a href= "{{ path('app_account') }}" >Mon compte <small>({{ app.user.firstname }})</small></a><a href= "{{ path('app_logout') }}" >Déconnexion</a>
+                            <a href= "{{ path('account') }}" >Mon compte <small>({{ app.user.firstname }})</small></a><a href= "{{ path('app_logout') }}" >Déconnexion</a>
                         {% else %}
-                        <a href= "{{ path('app_login') }}" >Connexion</a><a href= "{{ path('app_register') }}" >Inscription</a>
+                        <a href= "{{ path('login') }}" >Connexion</a><a href= "{{ path('register') }}" >Inscription</a>
                         {% endif %}
                     </div>
-                    <a href="{{ path('app_cart')}}">
+                    <a href="{{ path('cart')}}">
                         <img src="{{ asset('/assets/img/shopping-cart.png') }}" class="cart-icon" alt="Mon panier" >
                     </a>
                 </div>
             </nav>
         </header>
-
         <main role="main">
 
             {% if block('carousel') is defined %}
@@ -150,15 +148,15 @@
                 </div>
             {% endif %}
 
-            <!-- Marketing messaging and featurettes
-            ================================================== -->
-            <!-- Wrap the rest of the page in another container to center all the content. -->
-
             <div class="container marketing" {% if block('carousel') is not defined %}mt-5{% endif %}>
 
-                {% block content %}{% endblock %}
+                {% block content %}
+                
+                    <!-- Block content de mes views -->
 
-            </div><!-- /.container -->
+                {% endblock %}
+
+            </div>
             
             <!-- FOOTER -->
             <footer class="footer-custom">

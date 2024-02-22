@@ -21,16 +21,14 @@ class AccountAddressController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/compte/adresses', name: 'app_account_address')]
+    #[Route('/compte/adresses', name: 'address')]
     public function index(): Response
     {
         //dd($this->getUser());
-        return $this->render('account/address.html.twig', [
-            'controller_name' => 'AccountAddressController',
-        ]);
+        return $this->render('account/address.html.twig');
     }
 
-    #[Route('/compte/add/adresses', name: 'app_account_add_address')]
+    #[Route('/compte/adresses/add', name: 'add_address')]
     public function add(Cart $cart, Request $request): Response
     {
 
@@ -50,9 +48,9 @@ class AccountAddressController extends AbstractController
             //dd($address);
             // si j'ai un produit dans mon panier redirige moi vers order
             if ($cart->get()) {
-                return $this->redirectToRoute('app_order');
+                return $this->redirectToRoute('order');
             }else {
-                return $this->redirectToRoute('app_account_address');
+                return $this->redirectToRoute('address');
 
             }
 
@@ -64,13 +62,13 @@ class AccountAddressController extends AbstractController
         ]);
     }
 
-    #[Route('/compte/modifier-une-adresses/{id}', name: 'app_account_edit_address')]
+    #[Route('/compte/adresses/edit/{id}', name: 'edit_address')]
     public function edit(Request $request, $id): Response
     {
         $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
 
         if (!$address || $address->getUser() != $this->getUser()) {
-            return $this->redirectToRoute('app_account_address');
+            return $this->redirectToRoute('address');
         }
 
 
@@ -78,9 +76,10 @@ class AccountAddressController extends AbstractController
         $formAddress->handleRequest($request);
     
         if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-            $this->entityManager->flush();
             //dd($address);
-            return $this->redirectToRoute('app_account_address');
+            $this->entityManager->flush();
+            
+            return $this->redirectToRoute('address');
             
         }
 
@@ -89,7 +88,7 @@ class AccountAddressController extends AbstractController
         ]);
     }
 
-    #[Route('/compte/supprimer-une-adresses/{id}', name: 'app_account_delete_address')]
+    #[Route('/compte/adresses/delete/{id}', name: 'delete_address')]
     public function delete($id): Response
     {
         $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
@@ -99,7 +98,7 @@ class AccountAddressController extends AbstractController
             $this->entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_account_address');
+        return $this->redirectToRoute('address');
     }
     
 }

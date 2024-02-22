@@ -19,7 +19,7 @@ class AccountPasswordController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/compte/password', name: 'app_account_password')]
+    #[Route('/compte/password', name: 'password')]
 
     public function index(HttpFoundationRequest $request, UserPasswordHasherInterface $hasher): Response
     {
@@ -31,8 +31,10 @@ class AccountPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $old_pwd = $form->get('old_password')->getData();
+            
             //dd($old_pwd);
+            $old_pwd = $form->get('old_password')->getData();
+            
 
             if($hasher->isPasswordValid($user, $old_pwd)){
                 $new_pwd = $form->get('new_password')->getData();
