@@ -20,6 +20,7 @@ class Cart
     {
         $session = $this->requestStack->getSession();
         $cart = $session->get('cart', []);
+
         if (isset($cart[$id])) {
             //Si le produit existe déjà dans le panier, incrémente la quantité
             $cart[$id]++;
@@ -27,17 +28,15 @@ class Cart
             // Sinon, ajoute le produit au panier avec une quantité de 1
             $cart[$id] = 1;
         }
-            
-        $session->set('cart', $cart);
-        
 
+        $session->set('cart', $cart);
     }
 
     public function get()
     {
         //dd($cart->get());
-        // Assurez-vous que la méthode get() de la classe Cart retourne toujours un tableau valide
         $session = $this->requestStack->getSession();
+
         return $session->get('cart', []);
     }
 
@@ -50,17 +49,17 @@ class Cart
     public function delete($id)
     {
         $session = $this->requestStack->getSession();
-    $cart = $session->get('cart', []);
+        $cart = $session->get('cart', []);
 
-    // Vérifier si le produit existe dans le panier
-    if (isset($cart[$id])) {
-        // Supprimer le produit du panier
-        unset($cart[$id]);
-        // Mettre à jour le panier en session
-        $session->set('cart', $cart);
-    }
+        // Vérifier si le produit existe dans le panier
+        if (isset($cart[$id])) {
+            // Supprimer le produit du panier
+            unset($cart[$id]);
+            // Mettre à jour le panier en session
+            $session->set('cart', $cart);
+        }
 
-    return $cart;
+        return $cart;
     }
 
     public function decrease($id)
@@ -89,24 +88,24 @@ class Cart
     
         // Vérifiez si le panier n'est pas vide
         if ($cartItems) {
+
             foreach ($cartItems as $id => $quantity) {
                 // Recherchez le produit correspondant à l'ID dans la base de données
                 $product = $this->entityManager->getRepository(Product::class)->find($id);
+
                 if ($product) {
                     $cartComplete[] = [
                         'product' => $product,
                         'quantity' => $quantity
                     ];
-                } else {
+                }else {
                     // Si le produit n'existe pas, supprimez-le du panier
                     $this->delete($id);
                 }
             }
         }
-    
+
         return $cartComplete;
     }
-    
-
 }
 

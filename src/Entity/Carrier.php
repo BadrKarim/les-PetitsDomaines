@@ -28,6 +28,7 @@ class Carrier
         return $this->id;
     }
 
+    // afficher le carrier sélectionné par user dans la commande
     public function __toString()
     {
         return $this->getName(). '[br]' .$this->getDescription(). '[br]' .number_format($this->getPrice(), 2, '.', ',' ). ' €';

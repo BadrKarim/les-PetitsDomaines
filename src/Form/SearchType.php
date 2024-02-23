@@ -24,6 +24,7 @@ class SearchType extends AbstractType
                     'class' => 'form-control-sm'
                 ]
             ])
+
             ->add('categories', EntityType::class, [
                 'label' => false,
                 'required' => false,
@@ -31,12 +32,14 @@ class SearchType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Filtrer',
                 'attr' => [
                     'class' => 'btn-block btn-info'
                 ]
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

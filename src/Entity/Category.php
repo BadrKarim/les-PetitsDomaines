@@ -31,7 +31,7 @@ class Category
         return $this->id;
     }
 
-    // Convertir category en stirng pour Porduct Crud Controller
+    // Afficher category en stirng pour Porduct Crud Controller
     public function __toString()
     {
         return $this->getName();

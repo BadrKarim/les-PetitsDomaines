@@ -27,6 +27,7 @@ class RegisterType extends AbstractType
                 'placeholder' => 'Merci de saisir votre prénom'
                 ]
             ])
+
             ->add('lasname', TextType::class, [
                 'label' => 'Votre nom',
                 'constraints' => new Length([
@@ -36,6 +37,7 @@ class RegisterType extends AbstractType
                     'placeholder' => 'Merci de saisir votre nom'
                 ]
             ])
+
             ->add('email', EmailType::class, [
                 'label' => 'Votre email',
                 'constraints' => new Length([
@@ -45,19 +47,30 @@ class RegisterType extends AbstractType
                     'placeholder' => "Merci de saisir votre email"
                 ]
             ])
+
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
                 'label' => 'Votre mot de passe',
                 'required' => true,
-                'first_options' => [ 'label' => 'Mot de passe',
-                                      'attr' => [ 'placeholder' => 'Veuillez entrer votre mot de passe']],
-                'second_options' => ['label' => "Confirmez votre mot de passe",
-                                      'attr' => [ 'placeholder' => 'Veuillez confirmer votre mot de passe1']]
+                'first_options' => [ 
+                    'label' => 'Mot de passe',
+                                      'attr' => [ 
+                                        'placeholder' => 'Veuillez entrer votre mot de passe'
+                                        ]
+                                    ],
+                'second_options' => [
+                    'label' => "Confirmez votre mot de passe",
+                                      'attr' => [ 
+                                        'placeholder' => 'Veuillez confirmer votre mot de passe1'
+                                        ]
+                                    ]
             ])
+
             ->add('submit', SubmitType::class, [
                 'label' => "S'inscrire"
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

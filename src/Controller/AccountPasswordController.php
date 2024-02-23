@@ -30,13 +30,12 @@ class AccountPasswordController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            
+        if ($form->isSubmitted() && $form->isValid()){
             //dd($old_pwd);
             $old_pwd = $form->get('old_password')->getData();
             
 
-            if($hasher->isPasswordValid($user, $old_pwd)){
+            if ($hasher->isPasswordValid($user, $old_pwd)){
                 $new_pwd = $form->get('new_password')->getData();
                 $password = $hasher->hashPassword($user, $new_pwd);
                 $user->setPassword($password);

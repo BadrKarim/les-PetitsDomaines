@@ -31,21 +31,17 @@ class AccountAddressController extends AbstractController
     #[Route('/compte/adresses/add', name: 'add_address')]
     public function add(Cart $cart, Request $request): Response
     {
-
-
         $address = new Address();
         $formAddress = $this->createForm(AddressType::class, $address);
 
         $formAddress->handleRequest($request);
     
         if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-
-            
             $address->setUser($this->getUser());
-            
             $this->entityManager->persist($address);
             $this->entityManager->flush();
             //dd($address);
+
             // si j'ai un produit dans mon panier redirige moi vers order
             if ($cart->get()) {
                 return $this->redirectToRoute('order');
@@ -53,8 +49,6 @@ class AccountAddressController extends AbstractController
                 return $this->redirectToRoute('address');
 
             }
-
-            
         }
 
         return $this->render('account/formAddress.html.twig', [
@@ -71,7 +65,6 @@ class AccountAddressController extends AbstractController
             return $this->redirectToRoute('address');
         }
 
-
         $formAddress = $this->createForm(AddressType::class, $address);
         $formAddress->handleRequest($request);
     
@@ -80,7 +73,6 @@ class AccountAddressController extends AbstractController
             $this->entityManager->flush();
             
             return $this->redirectToRoute('address');
-            
         }
 
         return $this->render('account/formAddress.html.twig', [

@@ -25,16 +25,18 @@ class OrderCrudController extends AbstractCrudController
             ->add('index', 'detail');
     }
 
-    
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id', 'Identifiant de la commande :'),
             DateTimeField::new('createdAt', 'Commande passé le :'),
             TextField::new('user.fullName', 'Utilisateur :'),
-            MoneyField::new('total', 'Total :')->setCurrency('EUR'),
+            MoneyField::new('total', 'Total :')
+                ->setCurrency('EUR'),
+
             BooleanField::new('isPaid', 'Payée ?')
-        ];
+            ]
+        ;
     }
     
 }

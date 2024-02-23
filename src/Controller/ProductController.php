@@ -23,12 +23,12 @@ class ProductController extends AbstractController
     #[Route('/nos-produits', name: 'products')]
     public function index(Request $request): Response
     {
-
         $search = new Search();
         $formSearch = $this->createForm(SearchType::class, $search);
 
         $formSearch->handleRequest($request);
-        if($formSearch->isSubmitted() && $formSearch->isValid())
+
+        if ($formSearch->isSubmitted() && $formSearch->isValid())
         {
             //dd($search);
             $products = $this->entityManager->getRepository(Product::class)->findWithSearch($search);
@@ -37,8 +37,8 @@ class ProductController extends AbstractController
         }
 
         return $this->render('product/index.html.twig', [
-            'products' => $products,
-            'formSearch' => $formSearch->createView()
+            'formSearch' => $formSearch->createView(),
+            'products' => $products
         ]);
     }
     
