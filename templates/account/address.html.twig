@@ -4,37 +4,42 @@
 
 {% block content %}
 
-<a href="{{ path('add_address') }}" class="btn btn-info float-right">Ajouter une adresse</a>
-<h1>Mes adresses</h1>
-<p>C'est dans cette espace que vous pouvez gérez vos adresses</p>
-<a href="{{ path('account')}}">Retour</a>
-{# {{ dump(app.user) }} #}
+    <h1>Mes adresses</h1>
+    <a href="{{ path('add_address') }}" class="btn btn-info float-right">Ajouter une adresse</a>
+    <p>C'est dans cette espace que vous pouvez gérez vos adresses</p>
+    <a href="{{ path('account')}}">Retour</a>
+    {# {{ dump(app.user) }} #}
 
-{% if app.user.addresses|length == 0 %}
-<p class="text-center">
- Vous n'avez pas encore d'adresse pour en ajouter veillez <a href="{{ path('add_address') }}" >cliquer ici</a> 
- </p>
+    {% if app.user.addresses|length == 0 %}
 
-{% else %}
-{# {{ dump(app.user.adress) }} #}
+        <p class="text-center">
+        Vous n'avez pas encore d'adresse pour en ajouter veillez <a href="{{ path('add_address') }}" >cliquer ici</a> 
+        </p>
 
-    <div class="row">
-        {% for address in  app.user.addresses %}
-        <div class="col-md-4">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{address.name}}</h5>
-                     <p class="card-text">
-                        {{address.address}}<br>
-                        {{address.postal}} - {{address.city}} - {{address.country}}
-                     </p>
-                    <a href="{{ path('edit_address', {'id' : address.id}) }}">Modifier</a> | <a href="{{ path('delete_address', {'id' : address.id}) }}">Supprimer</a>
+    {% else %}
+
+    {# {{ dump(app.user.adress) }} #}
+        <div class="row">
+
+            {% for address in  app.user.addresses %}
+
+                <div class="col-md-4">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{address.name}}</h5>
+                            <p class="card-text">
+                                {{address.address}}<br />
+                                {{address.postal}} - {{address.city}} - {{address.country}}
+                            </p>
+                            <a href="{{ path('edit_address', {'id' : address.id}) }}">Modifier</a> | <a href="{{ path('delete_address', {'id' : address.id}) }}">Supprimer</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 
-{% endif %}
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
 
 {% endblock %}

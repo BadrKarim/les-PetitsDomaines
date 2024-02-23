@@ -1,9 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Les Petits Domaines{% endblock %}
+{% block title %}Nos produits - Les Petits Domaines{% endblock %}
 
 {% block content %}
-
     {# {{ dump(product)}} #}
     <div class="row">
         <div class="col-md-3">
@@ -13,18 +12,18 @@
         <div class="col-md-9">
             <h3>Nos produits</h3>
             <div class"row product-container">
+
                 {% for product in products %}
                     <div class="col-md-4">
                         <div class="product-item" text-center>
-                            <a href="{{ path('item_product', { 'slug' : product.slug })}}">
-                                <img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid">
-                            </a>
+                            <a href="{{ path('item_product', { 'slug' : product.slug })}}"><img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid"></a>
                             <h5>{{ product.name }}</h5>
                             <span class="product-subtitle">{{ product.subTitle }}</span>
                             <span class="product-price">{{ (product.price / 100)|number_format(2, ',','.') }} €</span>
                         </div>
                     </div>
                 {% endfor %}
+                
             </div>
         </div>
     </div>

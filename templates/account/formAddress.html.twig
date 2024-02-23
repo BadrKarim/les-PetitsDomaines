@@ -4,25 +4,24 @@
 
 {% block content %}
 
-<h1>Gérer mes adresses</h1>
-<a href="{{ path('address')}}">Retour</a>
-{# {{ dump(app.user) }} #}
+	<h1>Gérer mes adresses</h1>
+	<a href="{{ path('address')}}">Retour</a>
+	{# {{ dump(app.user) }} #}
 
-{{ form_start(formAddress) }}
+	{{ form_start(formAddress) }}
 
-    <div class="row">
-        <div class="col-md-12">{{ form_row(formAddress.name) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.firstname) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.lastname) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.company) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.address) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.postal) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.city) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.country) }}</div>
-        <div class="col-md-6">{{ form_row(formAddress.phone) }}</div>
+        <div class="row">
+            <div class="col-md-12">{{ form_row(formAddress.name) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.firstname) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.lastname) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.company) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.address) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.postal) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.city) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.country) }}</div>
+            <div class="col-md-6">{{ form_row(formAddress.phone) }}</div>
+        </div>
 
-    </div>
-
-{{ form_end(formAddress) }}
+	{{ form_end(formAddress) }}
 
 {% endblock %}

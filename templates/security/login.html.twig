@@ -4,32 +4,34 @@
 
 {% block content %}
 
-    <h1>Connexion à mon compte - Les Petits Domaines</h1>
-    <div class="block-small">
-        <form method="post">
+	<h1>Connexion à mon compte - Les Petits Domaines</h1>
+	<div class="block-small">
+		<form method="post">
 
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+			{% if error %}
+				<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
 
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
+			{% if app.user %}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
 
-            <h2 class="h3 mb-3 font-weight-normal">Merci de vous connecter à votre compte</h2>
-            <label for="inputEmail">Courriel</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder='Saisissez votre email' class="form-control" autocomplete="email" required autofocus>
-            <label for="inputPassword">Mot de passe</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder='Saisissez votre mot de passe' autocomplete="current-password" required>
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            <button class="btn btn-lg btn-info btn-block mt-3" type="submit">Se connecter</button>
+			<h2 class="h3 mb-3 font-weight-normal">Merci de vous connecter à votre compte</h2>
+			<label for="inputEmail">Courriel</label>
+			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder='Saisissez votre email' class="form-control" autocomplete="email" required autofocus>
+			<label for="inputPassword">Mot de passe</label>
+			<input type="password" name="password" id="inputPassword" class="form-control" placeholder='Saisissez votre mot de passe' autocomplete="current-password" required>
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+			<button class="btn btn-lg btn-info btn-block mt-3" type="submit">Se connecter</button>
 
-            <hr>
+			<hr>
 
-            <p class="text-center">Ou souhaitez-vous créer un <a href="{{ path('register')}}">compte</a></p>
-        </form>
-    </div>
+			<p class="text-center">Ou souhaitez-vous créer un<a href="{{ path('register')}}">compte</a></p>
+		</form>
+	</div>
 
 {% endblock %}

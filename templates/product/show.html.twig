@@ -3,22 +3,21 @@
 {% block title %}{{ product.name }} - Les Petits Domaines {% endblock %}
 
 {% block content %}
-    <h1>{{ product.name }}</h1>
     {# {{ dump(product) }} #}
+    <h1>{{ product.name }}</h1>
     <div class="row">
-            <div class="col-md-5">
-                <img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid">
+        <div class="col-md-5">
+            <img src="/illustrations/{{ product.illustration }}" alt="{{ product.name }}" class="img-fluid">
+        </div>
+        <div class="col-md-7 my-auto">
+            <div class="product-item" text="center">
+                <h3>{{ product.name }}</h3>
+                <span class="product-subtitle">{{ product.subTitle }}</span>
+                <span class="product-page-price">{{ (product.price / 100)|number_format(2, ',','.') }} €</span>
+                <p class="product-description">{{ product.description }}</p>
+                <a href="{{ path('add_cart', {'id' : product.id}) }}" class="btn btn-primary">Ajouter à votre panier</a>
             </div>
-            <div class="col-md-7 my-auto">
-                <div class="product-item" text="center">
-                    <h3>{{ product.name }}</h3>
-                    <span class="product-subtitle">{{ product.subTitle }}</span>
-                    <span class="product-page-price">{{ (product.price / 100)|number_format(2, ',','.') }} €</span>
-                    <p class="product-description">{{ product.description }}</p>
-                    <a href="{{ path('add_cart', {'id' : product.id}) }}" class="btn btn-primary">Ajouter au panier</a>
-                </div>
-        {# {{ dump(product)}} #}
-            </div>
+        </div>
     </div>
 
 {% endblock %}
