@@ -20,7 +20,6 @@ class AccountPasswordController extends AbstractController
     }
 
     #[Route('/compte/password', name: 'password')]
-
     public function index(HttpFoundationRequest $request, UserPasswordHasherInterface $hasher): Response
     {
         $notification = null;
@@ -45,6 +44,8 @@ class AccountPasswordController extends AbstractController
             }else {
                 $notification = 'votre mot  de passe n"est pas bon';
             }
+
+            return $this->redirectToRoute('account');
         }
 
         return $this->render('account/password.html.twig', [
