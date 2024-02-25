@@ -9,12 +9,10 @@ use App\Form\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
 {
-
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -23,22 +21,18 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande', name: 'order')]
-    public function index(Cart $cart): Response
+    public function index(Cart $cart)
     {
         //dd($this->getUser()->getAddresses()->getValues());
-        // si user n'a pas d'adresse redirige vers aad address
-        if (!$this->getUser()->getAddresses()->getValues()) {
-            return $this->redirectToRoute('app_account_add_address');
+        // si user n'a pas d'adresse
+        if (!$this->getUser()->getAddresses()->getValues()){
+
+            return $this->redirectToRoute('add_address');
         }
 
-        // si le panier est vide ne pas acceder à cette page
-        // if (!$this->getUser()->getAddresses()->getValues()) {
-        //     return $this->redirectToRoute('app_account_add_address');
-        // }
-
+        // createForm attend un deuxieme param lié à l'instance d'une entité
+        // OrderType n'est pas lié à une instance
         $formOrder = $this->createForm(OrderType::class, null, [
-            // deuxiéme papram null du createForm, car OrederType n'est pas lié à une class
-            // pour que mon form n'envoie que les adresse liés à un user
             'user' => $this->getUser()
         ]);
 
@@ -48,53 +42,48 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/recap', name: 'recap_order', methods: "POST")]
-    public function add(Cart $cart, Request $request): Response
+    #[Route('/commande/recap', name: 'order_recap', methods: ["POST"])]
+    public function recap(Cart $cart, Request $request) 
     {
-
-        
         $formOrder = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
 
         $formOrder->handleRequest($request);
+        //dd($request);
 
-
-        if ($formOrder->isSubmitted() && $formOrder->isValid()) {
+        if ($formOrder->isSubmitted() && $formOrder->isValid()){
+            //dd($formOrder->getData());
 
             $dateImmutable = new \DateTime();
             $dateImmutable = \DateTimeImmutable::createFromMutable($dateImmutable);
             $carriers = $formOrder->get('carrier')->getData();
-            //dd($carriers);
             $delivery = $formOrder->get('addresses')->getData();
-            //dd($delivery);
-            $delivry_content = $delivery->getFirstname(). ' ' .$delivery->getLastname();
-            $delivry_content .= '<br/>'.$delivery->getPhone();
+            $delivery_content = $delivery->getFirstname(). ' ' .$delivery->getLastname();
+            $delivery_content .= '<br/>'.$delivery->getPhone();
 
-            if ($delivery->getCompany()) {
-                $delivry_content .= '<br/>'.$delivery->getCompany();
+            if ($delivery->getCompany()){
+                $delivery_content .= '<br/>'.$delivery->getCompany();
             }
 
-            $delivry_content .= '<br/>' .$delivery->getAddress();
-            $delivry_content .= '<br/>' .$delivery->getPostal(). ' ' .$delivery->getCity();
-            $delivry_content .= '<br/>' .$delivery->getCountry();
-
+            $delivery_content .= '<br/>'.$delivery->getAddress();
+            $delivery_content .= '<br/>'.$delivery->getPostal(). ' ' .$delivery->getCity();
+            $delivery_content .= '<br/>'.$delivery->getCountry();
             
-            // enregistrer ma commande Order()
+            //Enregistrer ma commande Order()
             $order = new Order();
             $order->setUser($this->getUser());
             $order->setCreatedAt($dateImmutable);
             $order->setCarrierName($carriers->getName());
             $order->setCarrierPrice($carriers->getPrice());
-            $order->setDelivery($delivry_content);
+            $order->setDelivery($delivery_content);
             $order->setIsPaid(0);
-
             $this->entityManager->persist($order);
 
-            // enregistrer mes produits OrderDetails()
-            foreach ($cart->getFull() as $product) {
+            //Enregistrer mon entity OrderDetails
+            foreach ($cart->getFull() as $product){
                 //dd($product);
-                $orderDetails = new OrderDetails();
+                $orderDetails = new OrderDetails;
                 $orderDetails->setMyOrder($order);
                 $orderDetails->setProduct($product['product']->getName());
                 $orderDetails->setQuantity($product['quantity']);
@@ -103,16 +92,15 @@ class OrderController extends AbstractController
                 $this->entityManager->persist($orderDetails);
             }
 
-            //$this->entityManager->flush();
-            
-            return $this->render('order/add.html.twig', [
+           //$this->entityManager->flush();
+
+            return $this->render('order/orderRecap.html.twig', [
                 'cart' => $cart->getFull(),
                 'carrier' => $carriers,
-                'delivery' => $delivry_content
+                'delivery' => $delivery_content
             ]);
         }
 
-        //return $this->redirectToRoute('cart');
-
+        return $this->redirectToRoute('cart');
     }
 }

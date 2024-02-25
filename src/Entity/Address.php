@@ -64,7 +64,7 @@ class Address
     //Afficher l'adresse selectionnée par user dans la commande
     public function __toString()
     {
-        return $this->getName() . '[br]' . $this->getAddress() . '[br]' . $this->getCity() . '[br]' . '-' . $this->getCountry();
+        return $this->getName(). '[br]' .$this->getAddress(). '[br]' .$this->getCity(). '-' .$this->getCountry();
     }
 
     public function getName(): ?string

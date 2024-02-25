@@ -10,48 +10,46 @@
 	<hr>
 
 	<div class="row">
-		<div
-			class="col-md-6">
-			{# {{ dump(formOrder) }} #}
-			{% set formhtml %}
+		<div class="col-md-6">
+			
+				{% set formhtml %}
 
-                {{ form_start(formOrder) }}
+					{{ form_start(formOrder, {action:path('order_recap')}) }}
+						{{ form_label(formOrder.addresses, 'Choisissez votre adresse de livraison ou ')}}
+						<a href="{{ path('add_address') }}">Ajoutez une nouvelle adresse</a>
+					{{ form_end(formOrder)}}
 
-                {{ form_label(formOrder.addresses, 'Choisissez votre adresse de livraison')}}
-
-                <a hrf="{{ path('add_address')}}">Ou ajouter une nouvelle adresse</a>
-
-                {{ form_end(formOrder) }}
-
-			{% endset %}
-
-			{{ formhtml|replace({'[br]' : '<br/>'})|raw }}
-			{# {{ form_raw(formOrder.addresses)|replace({'[br]' : '<br/>'})|raw}} #}
+				{% endset %}
+				{{ formhtml|replace({'[br]' : '<br/>'})|raw}}
+			
 		</div>
+		{# {{ dump(cart) }} #}
 		<div class="col-md-6">
 			<div class="text-center">
-				<b>Récapulatif de ma commande</b><br/>
-				<p>Retrouvez l'ensemble de vos produits</p>
+				<b>mes produits choisi</b>
+				<p>Retrouvez l'ensemble de vos produits choisi</p>
 			</div>
-			{# {{ dump(cart) }} #}
-			<div class="order-summary">
-
-				{% for key, product in cart %}
-					<div class="row {% if key > 0 %} m-t2 {% endif %}">
+			<div class="order-sumary">
+				{% for key,product in cart %}
+					<div class="row {% if key > 1 %}mt-2{% endif %}">
 						<div class="col-2">
-							<img src="/illustrations/{{ product.product.illustration }}" alt="{{ product.product.name }}" height="75px">
+							<img src=" /illustrations/{{ product.product.illustration }} " alt=" {{ product.product.name }} " height="75px">
 						</div>
 						<div class="col-8 my-auto">
-							{{ product.product.name }}<br />
+							{{ product.product.name }}
 							<small>{{ product.product.subtitle }}</small>
 						</div>
-						<div class="col-2 my-auto">
-							x{{ product.quantity }}
+						<div class="col-2 my-auto" >
+							{{ product.quantity }}
 						</div>
 					</div>
 				{% endfor %}
-
 			</div>
+		</div>
+		
+		
+			
+			<b>bouton pour payer</b>
 		</div>
 	</div>
 
