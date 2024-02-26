@@ -9,6 +9,7 @@ use App\Form\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class OrderController extends AbstractController
@@ -21,7 +22,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande', name: 'order')]
-    public function index(Cart $cart)
+    public function index(Cart $cart) :Response
     {
         //dd($this->getUser()->getAddresses()->getValues());
         // si user n'a pas d'adresse
@@ -43,7 +44,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande/recap', name: 'order_recap', methods: ["POST"])]
-    public function recap(Cart $cart, Request $request) 
+    public function recap(Cart $cart, Request $request) :Response
     {
         $formOrder = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
