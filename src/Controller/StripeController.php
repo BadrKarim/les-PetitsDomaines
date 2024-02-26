@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Classes\Cart;
+use App\Entity\Order;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,16 +13,24 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class StripeController extends AbstractController
 {
-    #[Route('/commande/stripe', name: 'stripe_session')]
-    public function index(Cart $cart)
+    #[Route('/commande/stripe/{ reference }', name: 'stripe_session')]
+    public function index(Cart $cart, EntityManagerInterface $entityManager, $reference)
     {
         // integration de stripe
         $products_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000/';
 
-        // parcourir les élément de cart
-        foreach ($cart->getFull() as $product){
+        $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
+        //dd($order);
+        //dd($order->getOrderDetails()->getValues());
 
+        if (!$order){
+            new JsonResponse(['error' => 'order']);
+        }
+
+        // parcourir les élément de cart
+        foreach ($order->getOrderDetails()->getValues() as $product){
+            //dd($product);
             $products_stripe[] = [
                 'price_data' => [
                     'currency' => 'eur',

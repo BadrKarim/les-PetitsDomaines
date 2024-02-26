@@ -79,6 +79,8 @@ class OrderController extends AbstractController
             $order->setCarrierPrice($carriers->getPrice());
             $order->setDelivery($delivery_content);
             $order->setIsPaid(0);
+            $reference = $dateImmutable->format('d-m-Y').'--'.uniqid();
+            $order->setReference($reference);
             $this->entityManager->persist($order);
 
             //Enregistrer mon entity OrderDetails
@@ -92,13 +94,15 @@ class OrderController extends AbstractController
                 $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
             }
+            //dd($order);
 
-           //$this->entityManager->flush();
+            $this->entityManager->flush();
 
             return $this->render('order/orderRecap.html.twig', [
                 'cart' => $cart->getFull(),
                 'carrier' => $carriers,
-                'delivery' => $delivery_content
+                'delivery' => $delivery_content,
+                'reference' => $order->getReference()
             ]);
         }
 
