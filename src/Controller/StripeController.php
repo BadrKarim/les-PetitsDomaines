@@ -46,7 +46,7 @@ class StripeController extends AbstractController
         }
 
         // clé API stripe
-        Stripe::setApiKey('sk_test_51NsJ1YB9YDYnIaBceYeSmiAIQx8MrlK34daKJGDdv4UFAyJxqmoViFA20cnhtf0laDWRat2tH1oaZV4Kpu5LT34l00KFSupmqz');
+        Stripe::setApiKey('');
 
         // transmettre les contenues à facturer
         $checkout_session = Session::create([

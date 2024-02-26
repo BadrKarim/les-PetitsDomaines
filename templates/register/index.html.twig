@@ -5,6 +5,14 @@
 	<h1>Inscription</h1>
 	<h3>Veuillez renseigner vos informations personnelles pour vous inscrire</h3>
 
+	{% if notification %}
+
+		<div class="alert alert-info">{{ notification }}</div>
+
+		<hr>
+
+	{% endif %} 
+
 	{{ form(form) }}
 
 {% endblock %}
