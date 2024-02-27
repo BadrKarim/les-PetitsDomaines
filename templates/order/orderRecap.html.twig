@@ -80,39 +80,6 @@
         </div>
     </div>
 
-    {% block script %}
-    <script type="text/javascript">
- 
-        var stripe = Stripe['_ton apikey'];
-        var checkoutButton = document.getElementById("checkout-button");
-        checkoutButton.addEventListener("click", function () {
-            fetch("/commande/stripe/{{ reference }}", {
-                method: "POST",
-            })
-                .then(function (response) {
-                    return response.json();
-                })
-                 .then(function (session) {
-                    if (session.error == 'order'){
-                        window.location.replace('{{ path('order')}}');
-                    }else {
-                        return stripe.redirectToCheckout({ sessionId: session.id});
-                    }
-                     
-                 })
-                 .then(function (result) {
- 
- 
-                     if (result.error) {
-                         alert(result.error.message);
-                     }
-                 })
-                  .catch(function (error) {
-                      console.error("Error", error);
-                  })
-        })
- 
-    </script>
-{% endblock %}
+
 
 {% endblock %}
