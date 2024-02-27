@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\MailJet;
 use App\Entity\User;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -46,6 +47,10 @@ class RegisterController extends AbstractController
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
+
+                $mail = new MailJet();
+                $content = "Votre inscription s'est bien déroulée";
+                $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur Les Petis Domaines', $content);
 
                 $notification = "Votre inscription s'est correctement déroulée, Vous pouvez dès à présent vous connecter à votre compte";
 
