@@ -115,7 +115,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande/recap', name: 'order_recap')]
-    public function orderrecap(Cart $cart, RequestStack $requestStack)
+    public function orderrecap(Cart $cart, RequestStack $requestStack) :Response
     {
         //Declarer la session
         $session = $requestStack->getSession();

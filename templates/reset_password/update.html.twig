@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié - Les Petits Domaines{% endblock %}
+
+{% block content %}
+
+	<h1>Connexion à mon compte - Les Petits Domaines</h1>
+	<div class="block-small">
+		{% for message in app.flashes('notice') %}
+			<div class="alert alert-info">{{ message }}</div>
+		{% endfor %}
+		
+		{{ form(formResetPassword) }}
+
+	</div>
+
+{% endblock %}
