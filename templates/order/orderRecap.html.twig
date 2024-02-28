@@ -2,7 +2,7 @@
 
 {% block javascripts %}
 
-    <script src="https//js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 
 {% endblock %}
 
@@ -19,20 +19,19 @@
 		<div class="col-md-6">
 			<strong>mon adresse de livraison</strong><br/>
 			<div class="form-check">
-                {# {{ dump(delivery) }} #}
-				{# {{ delivery|raw }}<br/> #}
-			<div/>
+                {# {{ dump(delivery) }}  #}
+				 {{ delivery|raw }}<br/>
+			</div>
 
 			<hr>
 
 			<strong>mon transporteur</strong>
 			{# {{ dump(carrier) }} #}
-            <div
-                class=".form-check">
-                {# {{ carrier.name }}<br/>
-                {{ carrier.description }}<br/>
-                {{ carrier.price|number_format(2, ',', '.') }} € #}
-            <div/>
+            <div class="form-check">
+                 {{ carrier.name }}<br/>
+              
+                {{ carrier.price|number_format(2, ',', '.') }} € 
+            </div>
 	    </div>
         <div class="col-md-6">
             <div class="text-center">
@@ -70,12 +69,12 @@
             <div>
                 <strong>Sous-Total :</strong>{{ (total / 100)|number_format(2, ',','.') }} €<br />
                 {# {{ dump(carrier) }} #}
-                {# <strong>Livraison :</strong>{{ (carrier.price)|number_format(2, ',','.') }} € #}
+                <strong>Livraison :</strong>{{ (carrier.price)|number_format(2, ',','.') }} €
 
                 <hr>
 
-                {# <strong>Total :</strong>{{ ((total / 100) + carrier.price)|number_format(2, ',','.') }} € #}
-                {# <a href="" class="btn btn-success btn-block mt-3" id="checkout-button">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',','.') }} €</a> #}
+                <strong>Total :</strong>{{ ((total / 100) + carrier.price)|number_format(2, ',','.') }} €
+                <a href="" class="btn btn-success btn-block mt-3" id="checkout-button">Payer | {{ ((total / 100) + carrier.price)|number_format(2, ',','.') }} €</a>
             </div>
         </div>
     </div>

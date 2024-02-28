@@ -1,20 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ResetPasswordController!{% endblock %}
+{% block title %}Mot de passe oublié - Les Petits Domaines{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+	<h1>Connexion à mon compte - Les Petits Domaines</h1>
+	<div class="block-small">
+		<form method="post">
+			<h2 class="h3 mb-3 font-weight-normal">Réinitialiser mon mots de passe</h2>
+			<label for="inputEmail">Courriel</label>
+            <input type="email" value="" name="email" id="inputEmail" placeholder='Saisissez votre email' class="form-control" autocomplete="email" required autofocus>
+			
+			<button class="btn btn-lg btn-info btn-block mt-3" type="submit">Valider</button>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/karim/OneDrive/Bureau/Projets/lesPetitsDomaines/src/Controller/ResetPasswordController.php</code></li>
-        <li>Your template at <code>C:/Users/karim/OneDrive/Bureau/Projets/lesPetitsDomaines/templates/reset_password/index.html.twig</code></li>
-    </ul>
-</div>
+			<hr>
+
+			<p class="text-center">Ou souhaitez-vous créer un<a href="{{ path('login')}}">Vous connecter</a></p>
+		</form>
+	</div>
+
 {% endblock %}

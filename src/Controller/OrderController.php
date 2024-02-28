@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Classes\Cart;
+use App\Entity\Carrier;
 use App\Entity\Order;
 use App\Entity\OrderDetails;
 use App\Form\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,11 +24,11 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande', name: 'order')]
-    public function index(Cart $cart) :Response
+    public function index(Cart $cart): Response
     {
         //dd($this->getUser()->getAddresses()->getValues());
         // si user n'a pas d'adresse
-        if (!$this->getUser()->getAddresses()->getValues()){
+        if (!$this->getUser()->getAddresses()->getValues()) {
 
             return $this->redirectToRoute('add_address');
         }
@@ -43,8 +45,8 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/recap', name: 'order_recap', methods: ["POST"])]
-    public function recap(Cart $cart, Request $request) :Response
+    #[Route('/commande/save', name: 'order_save', methods: ["POST"])]
+    public function save(Cart $cart, Request $request, RequestStack $requestStack): Response
     {
         $formOrder = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
@@ -53,24 +55,24 @@ class OrderController extends AbstractController
         $formOrder->handleRequest($request);
         //dd($request);
 
-        if ($formOrder->isSubmitted() && $formOrder->isValid()){
+        if ($formOrder->isSubmitted() && $formOrder->isValid()) {
             //dd($formOrder->getData());
 
             $dateImmutable = new \DateTime();
             $dateImmutable = \DateTimeImmutable::createFromMutable($dateImmutable);
             $carriers = $formOrder->get('carrier')->getData();
             $delivery = $formOrder->get('addresses')->getData();
-            $delivery_content = $delivery->getFirstname(). ' ' .$delivery->getLastname();
-            $delivery_content .= '<br/>'.$delivery->getPhone();
+            $delivery_content = $delivery->getFirstname() . ' ' . $delivery->getLastname();
+            $delivery_content .= '<br/>' . $delivery->getPhone();
 
-            if ($delivery->getCompany()){
-                $delivery_content .= '<br/>'.$delivery->getCompany();
+            if ($delivery->getCompany()) {
+                $delivery_content .= '<br/>' . $delivery->getCompany();
             }
 
-            $delivery_content .= '<br/>'.$delivery->getAddress();
-            $delivery_content .= '<br/>'.$delivery->getPostal(). ' ' .$delivery->getCity();
-            $delivery_content .= '<br/>'.$delivery->getCountry();
-            
+            $delivery_content .= '<br/>' . $delivery->getAddress();
+            $delivery_content .= '<br/>' . $delivery->getPostal() . ' ' . $delivery->getCity();
+            $delivery_content .= '<br/>' . $delivery->getCountry();
+
             //Enregistrer ma commande Order()
             $order = new Order();
             $order->setUser($this->getUser());
@@ -79,12 +81,12 @@ class OrderController extends AbstractController
             $order->setCarrierPrice($carriers->getPrice());
             $order->setDelivery($delivery_content);
             $order->setIsPaid(0);
-            $reference = $dateImmutable->format('d-m-Y').'--'.uniqid();
+            $reference = $dateImmutable->format('d-m-Y') . '--' . uniqid();
             $order->setReference($reference);
             $this->entityManager->persist($order);
 
             //Enregistrer mon entity OrderDetails
-            foreach ($cart->getFull() as $product){
+            foreach ($cart->getFull() as $product) {
                 //dd($product);
                 $orderDetails = new OrderDetails;
                 $orderDetails->setMyOrder($order);
@@ -94,18 +96,45 @@ class OrderController extends AbstractController
                 $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
             }
-            //dd($order);
 
             $this->entityManager->flush();
+            //dd($order);
 
-            return $this->render('order/orderRecap.html.twig', [
-                'cart' => $cart->getFull(),
-                'carrier' => $carriers,
-                'delivery' => $delivery_content,
-                'reference' => $order->getReference()
-            ]);
+            //Declarer la session
+            $session = $requestStack->getSession();
+            //Mettre le order ID dans la session
+            $session->set('orderId', $order->getId());
+
+            //Redirection vers l'action orderrecap
+            return $this->redirectToRoute('order_recap', array('cart' => $cart));
+
+        }else {
+
+            return $this->redirectToRoute('cart');
         }
+    }
 
-        return $this->redirectToRoute('cart');
+    #[Route('/commande/recap', name: 'order_recap')]
+    public function orderrecap(Cart $cart, RequestStack $requestStack)
+    {
+        //Declarer la session
+        $session = $requestStack->getSession();
+        //Obtenir l'id order crée et mis en session precedement
+        $orderId = $session->get('orderId');
+
+        //Charger le ordfer par son id depuis la BD
+        $order = $this->entityManager->getRepository(Order::class)->findOneById($orderId);
+        
+        //Instancier et remplir les propriétés de l'objet Carrier car dans la view c'est appelé ainsi : Objet.Propriété
+        $carrier = new Carrier();
+        $carrier->setPrice($order->getCarrierPrice());
+        $carrier->setName($order->getCarrierName());
+       
+        return $this->render('order/orderRecap.html.twig', [
+            'cart' => $cart->getFull(),
+            'carrier' => $carrier,
+            'delivery' =>  $order->getDelivery(),
+            'reference' => $order->getReference(),
+        ]);
     }
 }

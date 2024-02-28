@@ -14,7 +14,7 @@
 			
 				{% set formhtml %}
 
-					{{ form_start(formOrder, {action:path('order_recap')}) }}
+					{{ form_start(formOrder, {action:path('order_save')}) }}
 						{{ form_label(formOrder.addresses, 'Choisissez votre adresse de livraison ou ')}}
 						<a href="{{ path('add_address') }}">Ajoutez une nouvelle adresse</a>
 					{{ form_end(formOrder)}}
@@ -37,6 +37,7 @@
 						</div>
 						<div class="col-8 my-auto">
 							{{ product.product.name }}
+							<br />
 							<small>{{ product.product.subtitle }}</small>
 						</div>
 						<div class="col-2 my-auto" >
