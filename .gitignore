@@ -23,3 +23,8 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> Stripe ###
+/src/Controller/StripeController
+/templates/order/orderRecap.html.twig
+###< Stripe ###
