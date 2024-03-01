@@ -84,7 +84,7 @@
     {% block script %}
     <script type="text/javascript">
  
-        var stripe = Stripe('');
+        var stripe = Stripe('pk_test_51NsJ1YB9YDYnIaBcgpwGJWePGquRNH6MM6w0dLgp9gcILd7My3Z7ywUz0pZ7loq6kqIODjg51gPQwXp3UhpwEvXo00cZpVjL4h');
         //console.log(stripe);
         var checkoutButton = document.getElementById("checkout-button");
         checkoutButton.addEventListener("click", function () {
@@ -92,7 +92,6 @@
             fetch("/commande/stripe-session/{{ reference }}", {
                 method: "POST",
             })
-            
                 .then(function (response) {
                     //console.log(response);
                     return response.json();
@@ -100,11 +99,11 @@
                  .then(function (session) {
                     //console.log(stripe);
                         //console.log(session);
-                        if (session.error == 'order'){
-                            window.location.replace('{{ path('order')}}');
-                        }else {
+                       // if (session.error == 'order'){
+                           // window.location.replace('{{ path('order')}}');
+                        //}else {
                             return stripe.redirectToCheckout({ sessionId: session.id});
-                        }
+                        //}
                         
                         //console.log(redirectToCheckout);
                     

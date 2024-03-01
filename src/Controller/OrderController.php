@@ -125,7 +125,7 @@ class OrderController extends AbstractController
         //Charger le ordfer par son id depuis la BD
         $order = $this->entityManager->getRepository(Order::class)->findOneById($orderId);
         $reference = $order->getReference();
-        //dd($reference);
+        //dd($order);
 
         //$products_in_order = $order->getOrderDetails()->getValues();
         //Instancier et remplir les propriétés de l'objet Carrier car dans la view c'est appelé ainsi : Objet.Propriété

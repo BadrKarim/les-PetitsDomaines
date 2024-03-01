@@ -19,11 +19,11 @@ class StripeController extends AbstractController
     public function index(EntityManagerInterface $entityManager, $reference)
     {
 
-        Stripe::setApiKey('');
+        Stripe::setApiKey('sk_test_51NsJ1YB9YDYnIaBceYeSmiAIQx8MrlK34daKJGDdv4UFAyJxqmoViFA20cnhtf0laDWRat2tH1oaZV4Kpu5LT34l00KFSupmqz');
         Stripe::setApiVersion('2023-10-16');
         // integration de stripe
         $products_stripe = [];
-        $YOUR_DOMAIN = 'http://127.0.0.1:8000/';
+        $YOUR_DOMAIN = 'http://127.0.0.1:8000';
 
         $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
         //dd($order);
@@ -43,7 +43,7 @@ class StripeController extends AbstractController
                     'currency' => 'eur',
                     'product_data' => [
                         'name' => $product->getName(),
-                        'images' => [$YOUR_DOMAIN."illustrations/".$product->getIllustration()],
+                        'images' => [$YOUR_DOMAIN."/illustrations/".$product->getIllustration()],
                     ],
                   'unit_amount' => $product->getPrice(),
                 ],
@@ -73,19 +73,23 @@ class StripeController extends AbstractController
         // transmettre les contenues à facturer
         $checkout_session = Session::create([
         'payment_method_types' => ['card'],
+        'customer_email' => $this->getUser()->getEmail(),
         'line_items' => $products_stripe,
         'mode' => 'payment',
-        'success_url' => $YOUR_DOMAIN.'/success',
-        'cancel_url' => $YOUR_DOMAIN.'/cancel',
+        'success_url' => $YOUR_DOMAIN.'/commande/success/{CHECKOUT_SESSION_ID}',
+        'cancel_url' => $YOUR_DOMAIN.'/cancel/{CHECKOUT_SESSION_ID}',
         ]);
+        //dd($order->setStripeSessionId($checkout_session->id));
+        $order->setStripeSessionId($checkout_session->id);
+        
+        $entityManager->flush();
         //dd($checkout_session->id);
         //dd($checkout_session->id);
         //dd($checkout_session);
 
         $response = new JsonResponse(['id' => $checkout_session->id]);
 
-        header("HTTP/1.1 303 See Other");
-        header("Location: " . $checkout_session->url);
+
 
         return $response;
     }
