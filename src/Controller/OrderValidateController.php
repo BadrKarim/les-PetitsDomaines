@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\Cart;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,7 @@ class OrderValidateController extends AbstractController
     }
 
     #[Route('/commande/success/{stripeSessionId}', name: 'success_paiment')]
-    public function index($stripeSessionId): Response
+    public function index(Cart $cart, $stripeSessionId): Response
     {
         $order = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
 
@@ -30,7 +31,9 @@ class OrderValidateController extends AbstractController
         if (!$order->isIsPaid()){
             $order->setIsPaid(1);
             $this->entityManager->flush();
-            dd($order->isIsPaid());
+            //dd($order->isIsPaid());
+            // vider le session cart
+            $cart->remove();
         }
 
         // envoyer un mail à notre client pour lui confirmer la commande

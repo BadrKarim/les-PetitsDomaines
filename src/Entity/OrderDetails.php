@@ -82,6 +82,12 @@ class OrderDetails
         return $this;
     }
 
+    // pour orderCrud afficher la liste des produits
+    public function __toString()
+    {
+        return $this->getProduct(). ' x ' .$this->getQuantity();
+    }
+
     public function getTotal(): ?float
     {
         return $this->total;

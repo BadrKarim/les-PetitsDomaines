@@ -61,7 +61,7 @@ class StripeController extends AbstractController
                         'name' => $order->getCarrierName(),
                         'images' => [$YOUR_DOMAIN],
                     ],
-                  'unit_amount' => $order->getCarrierPrice() * 100
+                  'unit_amount' => $order->getCarrierPrice()
                 ],
                 'quantity' => 1,
             ];
@@ -77,7 +77,7 @@ class StripeController extends AbstractController
         'line_items' => $products_stripe,
         'mode' => 'payment',
         'success_url' => $YOUR_DOMAIN.'/commande/success/{CHECKOUT_SESSION_ID}',
-        'cancel_url' => $YOUR_DOMAIN.'/cancel/{CHECKOUT_SESSION_ID}',
+        'cancel_url' => $YOUR_DOMAIN.'/commande/cancel/{CHECKOUT_SESSION_ID}',
         ]);
         //dd($order->setStripeSessionId($checkout_session->id));
         $order->setStripeSessionId($checkout_session->id);

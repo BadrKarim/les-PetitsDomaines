@@ -18,7 +18,7 @@ class CancelController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/commande/calcel/{stripeSessionId}', name: 'cancel_paiment')]
+    #[Route('/commande/cancel/{stripeSessionId}', name: 'cancel_paiment')]
     public function index($stripeSessionId): Response
     {
         $order = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
