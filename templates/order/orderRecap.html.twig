@@ -30,7 +30,7 @@
             <div class="form-check">
                  {{ order.carrierName }}<br/>
               
-                {{ order.carrierPrice|number_format(2, ',', '.') }} € 
+                {{ (order.carrierPrice / 100)|number_format(2, ',', '.') }} € 
             </div>
 	    </div>
         <div class="col-md-6">
