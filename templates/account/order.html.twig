@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - Mes commandes - Les Petits Domaines{% endblock %}
+
+{% block content %}
+
+    <h1>Mes commandes</h1>
+    <p>C'est dans cette espace que vous pouvez gérez vos commandes</p>
+    <a href="{{ path('account')}}">Retour</a>
+    {# {{ dump(app.user) }} #}
+
+    {% if app.user.orders|length == 0 %}
+
+        <p class="text-center">
+        Vous n'avez pas encore passé de commandes  
+        </p>
+
+    {% else %}
+
+
+       
+
+            {% for order in  app.user.orders %}
+
+            {{ dump(order) }}
+
+            {% endfor %}
+
+       
+
+    {% endif %}
+
+{% endblock %}
