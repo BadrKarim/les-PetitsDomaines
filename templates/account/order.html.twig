@@ -20,6 +20,7 @@
             <thead>
                 <tr>
                     <th scope="col">Féference</th>
+                    <th scope="col">Statut</th>
                     <th scope="col">Passé le</th>
                     <th scope="col">Produit(s)</th>
                     <th scope="col">Total</th>
@@ -29,8 +30,17 @@
             <tbody>
                 <tr>
                     {% for order in  orders %}
-
+{{ dump(order) }}
                         <td><spam class="badge badge-secondary"></spam>{{ order.reference }}</td>
+                        <td>
+                            {% if order.state == 1 %}
+                                <spam class="badge badge-secondary">Payée</spam>
+                            {% elseif order.state == 2 %}
+                                <spam class="badge badge-secondary">En cours de préparation</spam>
+                            {% elseif order.state == 3 %}
+                                <spam class="badge badge-secondary">Expédiée</spam>
+                            {% endif %}
+                        </td
                         <td>{{ order.createdAt|date('d/m/Y') }}</td>
                         <td>{{ order.orderDetails|length }}</td>
                         <td>{{ ((order.carrierPrice + order.getTotal()) / 100)|number_format(2, ',', '.') }} €</td>

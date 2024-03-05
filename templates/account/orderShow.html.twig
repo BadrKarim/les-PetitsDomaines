@@ -11,7 +11,17 @@
 
     <strong>Commande passée le : </strong>{{ order.createdAt|date('d/m/Y') }}<br />
     <strong>Réference de ma commande : </strong> <small>{{ order.reference }}</small><br />
-    <strong>Transporteur choisi : </strong>{{ order.carrierName}}
+    <strong>Transporteur choisi : </strong>{{ order.carrierName}}<br />
+    <strong>Statut : </strong>
+                            
+                            {% if order.state == 1 %}
+                                <spam class="badge badge-secondary">Payée</spam>
+                            {% elseif order.state == 2 %}
+                                <spam class="badge badge-secondary">En cours de préparation</spam>
+                            {% elseif order.state == 3 %}
+                                <spam class="badge badge-secondary">Expédiée</spam>
+                            {% endif %}
+                        
 
     <hr>
 
