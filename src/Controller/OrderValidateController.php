@@ -28,8 +28,8 @@ class OrderValidateController extends AbstractController
         }
 
         //modifier mon statut isPaid
-        if (!$order->isIsPaid()){
-            $order->setIsPaid(1);
+        if ($order->getState() == 0){
+            $order->setState(1);
             $this->entityManager->flush();
             //dd($order->isIsPaid());
             // vider le session cart
