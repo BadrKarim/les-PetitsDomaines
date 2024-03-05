@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
@@ -91,6 +92,7 @@ class OrderCrudController extends AbstractCrudController
             IdField::new('id', 'Identifiant de la commande :'),
             DateTimeField::new('createdAt', 'Commande passé le :'),
             TextField::new('user.fullName', 'Utilisateur :'),
+            TextEditorField::new('delivery', 'Adresse de livraison')->setTrixEditorConfig(['tag' => ['tagName' => 'br']])->onlyOnDetail(),
             MoneyField::new('total', 'Total :')
                 ->setCurrency('EUR'),
             
