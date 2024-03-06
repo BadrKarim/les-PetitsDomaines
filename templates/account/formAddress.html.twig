@@ -16,7 +16,10 @@
             <div class="col-md-6">{{ form_row(formAddress.firstname) }}</div>
             <div class="col-md-6">{{ form_row(formAddress.lastname) }}</div>
             <div class="col-md-6">{{ form_row(formAddress.company) }}</div>
-            <div class="col-md-6">{{ form_row(formAddress.address) }}</div>
+            <div class="col-md-6">
+                {{ form_row(formAddress.address) }}
+                <ul class="address-list"></ul>
+            </div>
             <div class="col-md-6">{{ form_row(formAddress.postal) }}</div>
             <div class="col-md-6">{{ form_row(formAddress.city) }}</div>
             <div class="col-md-6">{{ form_row(formAddress.country) }}</div>
@@ -26,3 +29,73 @@
 	{{ form_end(formAddress) }}
 
 {% endblock %}
+
+    {% block script %}
+    <script type="text/javascript">
+
+        const inputAddress = document.getElementById("address_address");
+        const inputCity = document.getElementById("address_city");
+        const inputPostal = document.getElementById("address_postal");
+        const addressList = document.querySelector(".address-list");
+
+        let addressDatas = [];
+
+        const fetchDatas = async () => {
+
+            inputAddress.addEventListener("input", async (e) => {
+                
+                if (e.target.value.length > 4){
+
+                    const baseUrl = "https://api-adresse.data.gouv.fr/search/";
+
+                    const queryParams = new URLSearchParams({
+                        q: e.target.value
+                    });
+
+                    const URL = `${baseUrl}?${queryParams}`;
+                    const response = await fetch(URL)
+                    const data = await response.json()
+                    console.log("voici la data", data.features)//
+                    addressDatas = data.features
+                    renderAddressList();
+                }
+            })
+        }
+
+        const renderAddressList = () => {
+
+            addressList.innerHTML = "";
+
+            addressDatas.forEach(({properties}, index) => {
+
+                const myList = document.createElement("li");
+                const myAddress = document.createElement("p");
+                const myContext = document.createElement("p");
+                const myCity = document.createTextNode("address_city")
+                const myPostal = document.createTextNode("address_postal")
+
+                myAddress.textContent = properties.name;
+                myContext.textContent = properties.context;
+                myCity.textContent = properties.city;
+                myPostal.textContent = properties.postcode;
+
+                myList.appendChild(myAddress);
+                myList.appendChild(myContext);
+                addressList.appendChild(myList);
+
+                myList.addEventListener("click", () => {
+                    inputAddress.value = myAddress.textContent;
+                    inputCity.value = myCity.textContent;
+                    inputPostal.value = myPostal.textContent;
+
+                    addressList.style.display = "none";
+                });
+            });
+
+            addressList.style.display = "block";
+        };
+
+        fetchDatas();
+
+    </script>
+    {% endblock %}
