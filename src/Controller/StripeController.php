@@ -19,7 +19,8 @@ class StripeController extends AbstractController
     public function index(EntityManagerInterface $entityManager, $reference)
     {
 
-        Stripe::setApiKey('');
+        $stripeKeyApi = $this->getParameter('STRIPE_KEY_API_SECRET');
+        Stripe::setApiKey($stripeKeyApi);
         Stripe::setApiVersion('2023-10-16');
         // integration de stripe
         $products_stripe = [];

@@ -84,7 +84,7 @@
     {% block script %}
     <script type="text/javascript">
  
-        var stripe = Stripe('');
+        var stripe = Stripe('{{ STRIPE_KEY_API_PUBLIC }}');
         //console.log(stripe);
         var checkoutButton = document.getElementById("checkout-button");
         checkoutButton.addEventListener("click", function () {
