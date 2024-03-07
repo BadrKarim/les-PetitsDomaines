@@ -19,10 +19,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class ResetPasswordController extends AbstractController
 {
     private $entityManager;
+    private $mailJet;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, MailJet $mailJet)
     {
         $this->entityManager = $entityManager;
+        $this->mailJet = $mailJet;
     }
 
     #[Route('mot-de-passe-oublie', name: 'password_reset')]
@@ -52,9 +54,8 @@ class ResetPasswordController extends AbstractController
                 // envoyer un mail avec un lien
                 $url = $this->generateUrl('password_reset_update', [
                     'token' => $reset_password->getToken()]);
-                $content = "Bonjour ".$user->getFirstname()."<br cliquer sur le lien pour renouveler votre mot de passe <a href='".$url."'></a>";
-                $mail = new MailJet();
-                $mail->send($user->getEmail(), $user->getFirstname(). ' ' . $user->getLasname(), 'Réinitialiser votre mots de passe Les Petits Domaine', $content);
+                
+                $this->mailJet->sendResetPassword($user->getEmail(), $user->getFirstname(), $user->getlasname(), $url);
             
                 //return $this->redirectToRoute('login');
 
@@ -113,11 +114,5 @@ class ResetPasswordController extends AbstractController
         return $this->render('reset_password/update.html.twig', [
             'formResetPassword' => $formResetPassword->createView()
         ]);
-
-
-
-
     }
-
-
 }

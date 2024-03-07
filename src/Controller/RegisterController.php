@@ -51,7 +51,7 @@ class RegisterController extends AbstractController
                 $this->entityManager->flush();
 
                 
-                $this->mailJet->sendRegister($user->getEmail(), $user->getFirstname(), $user->getlasname());
+                $this->mailJet->sendRegister($user->getEmail(), $user->getlasname(), $user->getFirstname());
 
                 $notification = "Votre inscription s'est correctement déroulée, Vous pouvez dès à présent vous connecter à votre compte";
 
