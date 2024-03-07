@@ -4,33 +4,43 @@ namespace App\Classes;
 
 use Mailjet\Client;
 use Mailjet\Resources;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MailJet 
 {
-    private $api_key = '';
-    private $api_key_secret = '';
+    private $params;
 
-    public function send($to_email, $to_name, $subject, $content)
+    public function __construct(ParameterBagInterface $params)
     {
-        $mj = new Client($this->api_key, $this->api_key_secret, true,['version' => 'v3.1']);
+        $this->params = $params;
+    }
+
+    public function sendRegister($to_email, $lastname, $firstname)
+    {
+        $api_key = $this->params->get('MAILJET_KEY_API_PUBLIC');
+        $api_key_secret = $this->params->get('MAILJET_KEY_API_SECRET');
+        $adminEmail = $this->params->get('ADMIN_MAIL');
+
+        $mj = new Client($api_key, $api_key_secret, true,['version' => 'v3.1']);
+
         $body = [
             'Messages' => [
                 [
                     'From' => [
-                        'Email' => "spametpoubelle@hotmail.com",
+                        'Email' => $adminEmail,
                         'Name' => "Les Petits Domaines"
                     ],
                     'To' => [
                         [
                             'Email' => $to_email,
-                            'Name' => $to_name
+                            'Name' => $lastname.' '.$firstname
                         ]
                     ],
-                    'TemplateID' => 5732292,
-                    'TemplateLanguage' => true,
-                    'Subject' => $subject,
+                    'TemplateID' => 5746751,
+                    'TemplateLanguage' => false,
                     'Variables' => [
-                        'content' => $content
+                        'lastName' => $lastname,
+                        'firstname'=> $firstname,
                     ]
                 ]
             ]

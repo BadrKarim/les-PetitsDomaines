@@ -16,10 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegisterController extends AbstractController
 {
     private $entityManager;
+    private $mailJet;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, MailJet $mailJet)
     {
         $this->entityManager = $entityManager;
+        $this->mailJet = $mailJet;
     }
 
     #[Route('/inscription', name: 'register')]
@@ -48,9 +50,8 @@ class RegisterController extends AbstractController
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
-                $mail = new MailJet();
-                $content = "Votre inscription s'est bien déroulée";
-                $mail->send($user->getEmail(), $user->getFirstname(), 'Bienvenue sur Les Petis Domaines', $content);
+                
+                $this->mailJet->sendRegister($user->getEmail(), $user->getFirstname(), $user->getlasname());
 
                 $notification = "Votre inscription s'est correctement déroulée, Vous pouvez dès à présent vous connecter à votre compte";
 

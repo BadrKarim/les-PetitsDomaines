@@ -8,6 +8,7 @@ parameters:
     STRIPE_KEY_API_SECRET: '%env(STRIPE_KEY_API_SECRET)%'
     MAILJET_KEY_API_PUBLIC: '%env(MAILJET_KEY_API_PUBLIC)%'
     MAILJET_KEY_API_SECRET: '%env(MAILJET_KEY_API_SECRET)%'
+    ADMIN_MAIL: '%env(ADMIN_MAIL)%'
 
 services:
     # default configuration for services in *this* file
