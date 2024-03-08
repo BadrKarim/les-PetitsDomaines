@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Classes\Cart;
-use App\Entity\Carrier;
 use App\Entity\Order;
 use App\Entity\OrderDetails;
 use App\Form\OrderType;
@@ -26,15 +25,10 @@ class OrderController extends AbstractController
     #[Route('/commande', name: 'order')]
     public function index(Cart $cart): Response
     {
-        //dd($this->getUser()->getAddresses()->getValues());
-        // si user n'a pas d'adresse
         if (!$this->getUser()->getAddresses()->getValues()) {
-
             return $this->redirectToRoute('add_address');
         }
 
-        // createForm attend un deuxieme param lié à l'instance d'une entité
-        // OrderType n'est pas lié à une instance
         $formOrder = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
@@ -53,11 +47,8 @@ class OrderController extends AbstractController
         ]);
 
         $formOrder->handleRequest($request);
-        //dd($request);
 
         if ($formOrder->isSubmitted() && $formOrder->isValid()) {
-            //dd($formOrder->getData());
-
             $dateImmutable = new \DateTime();
             $dateImmutable = \DateTimeImmutable::createFromMutable($dateImmutable);
             $carriers = $formOrder->get('carrier')->getData();
@@ -87,7 +78,6 @@ class OrderController extends AbstractController
 
             //Enregistrer mon entity OrderDetails
             foreach ($cart->getFull() as $product) {
-                //dd($product);
                 $orderDetails = new OrderDetails;
                 $orderDetails->setMyOrder($order);
                 $orderDetails->setProduct($product['product']->getName());
@@ -98,14 +88,10 @@ class OrderController extends AbstractController
             }
 
             $this->entityManager->flush();
-            //dd($order);
 
-            //Declarer la session
             $session = $requestStack->getSession();
-            //Mettre le order ID dans la session
             $session->set('orderId', $order->getId());
 
-            //Redirection vers l'action orderrecap
             return $this->redirectToRoute('order_recap', array('cart' => $cart));
 
         }else {
@@ -117,30 +103,16 @@ class OrderController extends AbstractController
     #[Route('/commande/recap', name: 'order_recap')]
     public function orderrecap(Cart $cart, RequestStack $requestStack) :Response
     {
-        //Declarer la session
         $session = $requestStack->getSession();
-        //Obtenir l'id order crée et mis en session precedement
         $orderId = $session->get('orderId');
 
-        //Charger le ordfer par son id depuis la BD
         $order = $this->entityManager->getRepository(Order::class)->findOneById($orderId);
         $reference = $order->getReference();
-        //dd($order);
-
-        //$products_in_order = $order->getOrderDetails()->getValues();
-        //Instancier et remplir les propriétés de l'objet Carrier car dans la view c'est appelé ainsi : Objet.Propriété
-        // $carrier = new Carrier();
-        // $carrier->setPrice($order->getCarrierPrice());
-        // $carrier->setName($order->getCarrierName());
        
         return $this->render('order/orderRecap.html.twig', [
             'cart' => $cart->getFull(),
-            //'carrier' => $carrier,
             'order' => $order,
             'reference' => $reference
-            //'products_in_order' => $products_in_order
-            //'delivery' =>  $order->getDelivery(),
-            //'reference' => $order->getReference(),
         ]);
     }
 }
