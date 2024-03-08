@@ -30,8 +30,8 @@ class ProductController extends AbstractController
 
         if ($formSearch->isSubmitted() && $formSearch->isValid())
         {
-            //dd($search);
             $products = $this->entityManager->getRepository(Product::class)->findWithSearch($search);
+
         }else {
             $products = $this->entityManager->getRepository(Product::class)->findAll();
         }
@@ -45,7 +45,6 @@ class ProductController extends AbstractController
     #[Route('/produit/{slug}', name: 'item_product')]
     public function show($slug): Response
     {
-        //dd($slug);
         $product = $this->entityManager->getRepository(Product::class)->findOneBySlug($slug);
         $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
 
