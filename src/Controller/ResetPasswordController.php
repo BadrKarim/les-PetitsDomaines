@@ -43,7 +43,6 @@ class ResetPasswordController extends AbstractController
                 $dateImmutable = new DateTime();
                 $dateImmutable = DateTimeImmutable::createFromMutable($dateImmutable);
 
-                // enregistrer en base de donnée la demande de resetpassword
                 $reset_password = new ResetPassword();
                 $reset_password->setUser($user);
                 $reset_password->setToken(uniqid());
@@ -54,16 +53,13 @@ class ResetPasswordController extends AbstractController
                 // envoyer un mail avec un lien
                 $url = $this->generateUrl('password_reset_update', [
                     'token' => $reset_password->getToken()]);
-                
                 $this->mailJet->sendResetPassword($user->getEmail(), $user->getFirstname(), $user->getlasname(), $url);
             
-                //return $this->redirectToRoute('login');
-
                 }else {
-                    $this->addFlash('notice', 'Vous allez recevoir un mail');
+                    $this->addFlash('primary', 'Vous allez recevoir un mail');
                 }
         }else {
-            $this->addFlash('notice', 'Cette adresse mail est inconnu');
+            $this->addFlash('danger', 'Cette adresse mail est inconnu');
         }
 
         return $this->render('reset_password/index.html.twig');
@@ -77,7 +73,6 @@ class ResetPasswordController extends AbstractController
 
         // verifier que le token existe en BD
         if (!$reset_password){
-
             return $this->redirectToRoute('password_reset');
         }
 
@@ -87,8 +82,7 @@ class ResetPasswordController extends AbstractController
 
         $currentDate = new \DateTime();
         if ($currentDate > $reset_password->getCreatedAt()->add(new DateInterval('PT1H'))){
-            //dd($reset_password->getCreatedAt()->add(new DateInterval('PT1H')));
-            $this->addFlash('notice', 'Votre demande à expiré');
+            $this->addFlash('info', 'Votre demande à expiré, demmandez un nouveau mots de passe');
            return $this->redirectToRoute('password_reset');
         }
 
@@ -99,17 +93,14 @@ class ResetPasswordController extends AbstractController
         if ($formResetPassword->isSubmitted() && $formResetPassword->isValid()){
                 //encodage des mots de passes
                 $new_pwd = $formResetPassword->get('new_password')->getData();
-                //dd($new_pwd);
                 $password = $hasher->hashPassword($reset_password->getUser(), $new_pwd);
                 $reset_password->getUser()->setPassword($password);
-                //flush en DB
                 $this->entityManager->flush();
         }
         
         //redirection ver login
-        $this->addFlash('notice', 'votre mots de passe a bien été modifié');
+        $this->addFlash('primary', 'votre mots de passe a bien été modifié');
         return $this->redirectToRoute('login');
-
 
         return $this->render('reset_password/update.html.twig', [
             'formResetPassword' => $formResetPassword->createView()
