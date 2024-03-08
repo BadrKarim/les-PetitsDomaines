@@ -27,16 +27,13 @@ class RegisterController extends AbstractController
     #[Route('/inscription', name: 'register')]
     public function index(Request $request, UserPasswordHasherInterface $hasher): Response
     {
-        $notification = null;
-
         $user = new User();
-        $form = $this->createForm(RegisterType::class, $user);
+        $formRegister = $this->createForm(RegisterType::class, $user);
 
-        $form->handleRequest($request);
+        $formRegister->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $user = $form->getData();
-            //dd($password);
+        if ($formRegister->isSubmitted() && $formRegister->isValid()){
+            $user = $formRegister->getData();
 
             // recherche du mail existant
             $search_email = $this->entityManager->getRepository(User::class)->findOneByEmail($user->getEmail());
@@ -45,29 +42,24 @@ class RegisterController extends AbstractController
 
                 $password = $hasher->hashPassword($user, $user->getPassword());
                 $user->setPassword($password);
-                //dd($password);
 
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
-                
                 $this->mailJet->sendRegister($user->getEmail(), $user->getlasname(), $user->getFirstname());
 
-                $notification = "Votre inscription s'est correctement déroulée, Vous pouvez dès à présent vous connecter à votre compte";
-
+                $this->addFlash('success', "Votre inscription s'est bien déroulée vous allez recevoir un email pour activer votre compte");
+                
             }else {
-                //throw $this->createNotFoundException('The product does not exist');
 
-                $notification = "L'email que vous avez renseigné, existe déjà.";
-
+                $this->addFlash('secondary', 'Votre email existe déjàs, vous pouvez vous connecter à votre compte');
             }
 
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('register/index.html.twig', [
-            'form' => $form->createView(),
-            'notification' => $notification
+        return $this->render('account/register.html.twig', [
+            'formRegister' => $formRegister->createView()
         ]);
     }
 }

@@ -74,7 +74,7 @@
 
 						{% if app.user %}
 							<a href="{{ path('account') }}">Mon compte <b>({{ app.user.firstname }})</b></a>
-							<a href="{{ path('app_logout') }}">Déconnexion</a>
+							<a href="{{ path('logout') }}">Déconnexion</a>
 						{% else %}
 							<a href="{{ path('login') }}">Connexion</a>
 							<a href="{{ path('register') }}">Inscription</a>
@@ -119,6 +119,8 @@
 			{% endif %}
 
 			<div class="container marketing" {% if block('carousel') is not defined %} mt-5 {% endif %}>
+
+				{% include "partials/flash.html.twig" %}
 
 				{% block content %}
 
