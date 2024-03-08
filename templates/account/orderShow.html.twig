@@ -4,25 +4,24 @@
 
 {% block content %}
 
-    <h1>Ma commande - {{ order.reference }} </h1>
-    <a href="{{ path('account_order')}}">Retour</a>
+    <h1>Ma commande - <small>{{ order.reference }}</small></h1> 
+    <a href="{{ path('account_order')}}">Retour aux comandes </a>
     
-    <hr><strong></strong>
+    <hr>
 
     <strong>Commande passée le : </strong>{{ order.createdAt|date('d/m/Y') }}<br />
-    <strong>Réference de ma commande : </strong> <small>{{ order.reference }}</small><br />
-    <strong>Transporteur choisi : </strong>{{ order.carrierName}}<br />
+    <strong>Réference de ma commande : </strong> <small class="badge badge-dark">{{ order.reference }}</small><br />
+    <strong>Transporteur choisi : </strong>{{ order.carrierName }}<br />
     <strong>Statut : </strong>
                             
-                            {% if order.state == 1 %}
-                                <spam class="badge badge-secondary">Payée</spam>
-                            {% elseif order.state == 2 %}
-                                <spam class="badge badge-secondary">En cours de préparation</spam>
-                            {% elseif order.state == 3 %}
-                                <spam class="badge badge-secondary">Expédiée</spam>
-                            {% endif %}
+        {% if order.state == 1 %}
+            <spam class="badge badge-success">Payée</spam>
+        {% elseif order.state == 2 %}
+            <spam class="badge badge-info">En cours de préparation</spam>
+        {% elseif order.state == 3 %}
+            <spam class="badge badge-warning">Expédiée</spam>
+        {% endif %}
                         
-
     <hr>
 
     <strong>Détails : </strong>
@@ -33,17 +32,17 @@
                     <th scope="col">Produit(s)</th>
                     <th scope="col">Prix unitaire</th>
                     <th scope="col">Quantité</th>
-                    <th scope="col">Total</th>                   
+                    <th scope="col">Total des produits</th>                   
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     {% for product in  order.orderDetails %}
-                    {# {{ dump(product) }} #}
-                    <td>{{ product.product }}</td>
-                    <td>{{ (product.price / 100)|number_format(2, ',', '.') }} €</td>
-                    <td>{{ product.quantity }}</td>
-                    <td>{{ (product.total / 100)|number_format(2, ',', '.') }} €</td>
+
+                        <td>{{ product.product }}</td>
+                        <td>{{ (product.price / 100)|number_format(2, ',', '.') }} €</td>
+                        <td>{{ product.quantity }}</td>
+                        <td>{{ (product.total / 100)|number_format(2, ',', '.') }} €</td>
 
                     {% endfor %}
                 </tr>
@@ -52,13 +51,8 @@
 
         <div class="text-right">
             <strong>Sous-total : </strong>{{ (order.getTotal() / 100)|number_format(2, ',', '.') }} €<br />
-            <strong>Livraison : </strong>{{ order.carrierPrice|number_format(2, ',', '.') }} €<br />
+            <strong>Livraison : </strong>{{ (order.carrierPrice / 100)|number_format(2, ',', '.') }} €<br />
             <strong>Total : </strong>{{ ((order.carrierPrice + order.getTotal()) / 100)|number_format(2, ',', '.') }} €
         </div>
-
-
-
-
-    {{ dump(order) }}
 
 {% endblock %}

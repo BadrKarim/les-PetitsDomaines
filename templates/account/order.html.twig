@@ -16,31 +16,31 @@
         </p>
 
     {% else %}
+
         <table class="table mt-3">
             <thead>
                 <tr>
-                    <th scope="col">Féference</th>
+                    <th scope="col">Réference</th>
                     <th scope="col">Statut</th>
-                    <th scope="col">Passé le</th>
-                    <th scope="col">Produit(s)</th>
+                    <th scope="col">Passé le :</th>
+                    <th scope="col">Nombre de produit</th>
                     <th scope="col">Total</th>
-                    <th scope="col">Total</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     {% for order in  orders %}
-{{ dump(order) }}
-                        <td><spam class="badge badge-secondary"></spam>{{ order.reference }}</td>
+                        <td><spam class="badge badge-dark">{{ order.reference }}</spam></td>
                         <td>
                             {% if order.state == 1 %}
-                                <spam class="badge badge-secondary">Payée</spam>
+                                <spam class="badge badge-success">Payée</spam>
                             {% elseif order.state == 2 %}
-                                <spam class="badge badge-secondary">En cours de préparation</spam>
+                                <spam class="badge badge-info">En cours de préparation</spam>
                             {% elseif order.state == 3 %}
-                                <spam class="badge badge-secondary">Expédiée</spam>
+                                <spam class="badge badge-warning">Expédiée</spam>
                             {% endif %}
-                        </td
+                        </td>
                         <td>{{ order.createdAt|date('d/m/Y') }}</td>
                         <td>{{ order.orderDetails|length }}</td>
                         <td>{{ ((order.carrierPrice + order.getTotal()) / 100)|number_format(2, ',', '.') }} €</td>
