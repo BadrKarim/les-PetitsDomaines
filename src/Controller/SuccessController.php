@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class OrderValidateController extends AbstractController
+class SuccessController extends AbstractController
 {
     private $entityManager;
 
@@ -42,7 +42,7 @@ class OrderValidateController extends AbstractController
         //afficher les queleques informations de la commande de l'utilisitateur
 
         //dd($order);
-        return $this->render('order_validate/index.html.twig', [
+        return $this->render('stripe/success.html.twig', [
             'order' => $order
         ]);
     }

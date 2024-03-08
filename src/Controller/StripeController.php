@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-
-
 use App\Entity\Order;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,17 +16,14 @@ class StripeController extends AbstractController
     #[Route('/commande/stripe-session/{reference}', name: 'stripe_session')]
     public function index(EntityManagerInterface $entityManager, $reference)
     {
-
         $stripeKeyApi = $this->getParameter('STRIPE_KEY_API_SECRET');
         Stripe::setApiKey($stripeKeyApi);
         Stripe::setApiVersion('2023-10-16');
-        // integration de stripe
+
         $products_stripe = [];
         $YOUR_DOMAIN = 'http://127.0.0.1:8000';
 
         $order = $entityManager->getRepository(Order::class)->findOneByReference($reference);
-        //dd($order);
-        // dd($order->getOrderDetails()->getValues());
 
         if (!$order){
             new JsonResponse(['error' => 'order']);
@@ -36,9 +31,9 @@ class StripeController extends AbstractController
 
         // parcourir les élément de cart
         foreach ($order->getOrderDetails()->getValues() as $orderDetails){
-            //dd($orderDetails);
+
             $product = $entityManager->getRepository(Product::class)->findOneByName($orderDetails->getProduct());
-            //dd($product);
+
             $products_stripe[] = [
                 'price_data' => [
                     'currency' => 'eur',
@@ -50,26 +45,19 @@ class StripeController extends AbstractController
                 ],
                 'quantity' => $orderDetails->getQuantity(),
             ];
-            
-
-            
         }
 
-            $products_stripe[] = [
-                'price_data' => [
-                    'currency' => 'eur',
-                    'product_data' => [
-                        'name' => $order->getCarrierName(),
-                        'images' => [$YOUR_DOMAIN],
-                    ],
-                  'unit_amount' => $order->getCarrierPrice()
+        $products_stripe[] = [
+            'price_data' => [
+                'currency' => 'eur',
+                'product_data' => [
+                    'name' => $order->getCarrierName(),
+                    'images' => [$YOUR_DOMAIN],
                 ],
-                'quantity' => 1,
-            ];
-        
-           //dd($products_stripe);
-        
-        // clé API stripe
+                'unit_amount' => $order->getCarrierPrice()
+            ],
+            'quantity' => 1,
+        ];
 
         // transmettre les contenues à facturer
         $checkout_session = Session::create([
@@ -84,13 +72,8 @@ class StripeController extends AbstractController
         $order->setStripeSessionId($checkout_session->id);
         
         $entityManager->flush();
-        //dd($checkout_session->id);
-        //dd($checkout_session->id);
-        //dd($checkout_session);
 
         $response = new JsonResponse(['id' => $checkout_session->id]);
-
-
 
         return $response;
     }

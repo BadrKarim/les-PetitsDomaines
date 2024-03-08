@@ -27,9 +27,7 @@ class CancelController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // envoyer un mail pour l'echec
-
-        return $this->render('cancel/index.html.twig',[
+        return $this->render('stripe/cancel.html.twig',[
             'order' => $order
         ]);
     }
