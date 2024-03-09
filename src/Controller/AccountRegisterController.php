@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class RegisterController extends AbstractController
+class AccountRegisterController extends AbstractController
 {
     private $entityManager;
     private $mailJet;
