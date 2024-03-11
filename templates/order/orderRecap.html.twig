@@ -19,14 +19,12 @@
 		<div class="col-md-6">
 			<strong>mon adresse de livraison</strong><br/>
 			<div class="form-check">
-                {# {{ dump(delivery) }}  #}
 				 {{ order.delivery|raw }}<br/>
 			</div>
 
 			<hr>
    
 			<strong>mon transporteur</strong>
-			{# {{ dump(carrier) }} #}
             <div class="form-check">
                  {{ order.carrierName }}<br/>
               
@@ -38,17 +36,15 @@
                 <b>Ma commande</b><br/>
                 <p>Retrouvez l'ensemble de vos produits</p>
             </div>
-            {# {{ dump(cart) }} #}
             <div class="order-summary">
 
                 {% set total = null %}
                 {% for key, product in cart %}
-                    {# {{ dump(product) }} #}
-                    <div class="row {% if key > 0 %} m-t2 {% endif %}">
+                    <div class="row {% if key > 0 %}m-t2{% endif %}">
                         <div class="col-2">
                             <img src=" /illustrations/{{ product.product.illustration }} " alt=" {{ product.product.name }} " height="75px">
                         </div>
-                        <div class="col-8 my-auto">
+                        <div class="col-8 my-auto text-center">
                             {{ product.product.name }}<br />
                             <small>
                                 {{ product.product.subtitle }}
@@ -60,7 +56,7 @@
                             {{ ((product.product.price * product.quantity) / 100)|number_format(2, ',','.') }} €
                         </div>
                     </div>
-                    {% set total = total + (product.product.price * product.quantity) %}
+                {% set total = total + (product.product.price * product.quantity) %}
                 {% endfor %}
             </div>
                 
@@ -68,7 +64,6 @@
 
             <div>
                 <strong>Sous-Total :</strong>{{ (total / 100)|number_format(2, ',','.') }} €<br />
-                {# {{ dump(carrier) }} #}
                 <strong>Livraison :</strong>{{ (order.carrierPrice / 100)|number_format(2, ',','.') }} €
 
                 <hr>
@@ -79,46 +74,39 @@
         </div>
     </div>
 
-    {% endblock %}
+{% endblock %}
 
-    {% block script %}
+{% block script %}
     <script type="text/javascript">
  
         var stripe = Stripe('{{ STRIPE_KEY_API_PUBLIC }}');
-        //console.log(stripe);
         var checkoutButton = document.getElementById("checkout-button");
         checkoutButton.addEventListener("click", function () {
             
             fetch("/commande/stripe-session/{{ reference }}", {
                 method: "POST",
             })
-                .then(function (response) {
+            .then(function (response) {
                     //console.log(response);
                     return response.json();
-                })
-                 .then(function (session) {
-                    //console.log(stripe);
+            })
+            .then(function (session) {
                         //console.log(session);
-                       // if (session.error == 'order'){
-                           // window.location.replace('{{ path('order')}}');
-                        //}else {
-                            return stripe.redirectToCheckout({ sessionId: session.id});
-                        //}
-                        
-                        //console.log(redirectToCheckout);
-                    
-                     
-                 })
-                 .then(function (result) {
-                    //console.log(fetch);
+                if (session.error == 'order'){
+                    window.location.replace('{{ path('order')}}');
+                }else {
+                    return stripe.redirectToCheckout({ sessionId: session.id});
+                }
+            })
+            .then(function (result) {
  
-                     if (result.error) {
-                         alert(result.error.message);
-                     }
-                 })
-                  .catch(function (error) {
-                      console.error("Error", error);
-                  })
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            })
+            .catch(function (error) {
+                console.error("Error", error);
+            })
         })
  
     </script>

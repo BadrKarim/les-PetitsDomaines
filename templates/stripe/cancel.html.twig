@@ -6,12 +6,11 @@
 
     <h1>Merci d'avoir fait vos achat chez nous - Les Petits Domaines</h1>
     <p>bonjour {{ order.user.firstname}} {{ order.user.lasname }}<br />
-    Il semeblerai que votre paiment a échoué un mail vient de vous être envoyé à l'adresse {{ order.user.email }}<br />
+    Il semeblerai que votre paiment ait échoué un mail vient de vous être envoyé à l'adresse {{ order.user.email }}<br />
     Votre commande porte la reference suivante : {{ order.reference }}
 
     <hr>
 
+    <a href="{{ path('order') }}" class="btn btn-info">Réséyer le paiment</a>
 
-    <a href"{{ path('order') }}">Réséyer le paiment</a> 
-    {# {{ dump(order) }} #}
 {% endblock %}

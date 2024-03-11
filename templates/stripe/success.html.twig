@@ -10,10 +10,12 @@
     Votre commande porte la reference suivante : {{ order.reference }}
 
     <hr>
+
     votre commande sera livré par {{ order.carrierName }} à l'adresse suivante <br />
     {{ order.delivery|raw }}
+
     <hr>
 
-    Pour suivre votre commande rendez-vous dans votre  <a href"{{ path('account') }}">compte</a> 
-    {# {{ dump(order) }} #}
+    Pour suivre votre commande rendez-vous dans votre <a href="{{ path('account') }}" class="btn btn-info">Aller au compte</a> 
+
 {% endblock %}

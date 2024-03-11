@@ -50,15 +50,14 @@ class OrderCrudController extends AbstractCrudController
         $order = $context->getEntity()->getInstance();
         $order->setState(2);
         $this->entityManager->flush();
+        //dd($order->getReference());
 
-        //$this->addFlash('notice', "<span style='color:green;'><strong>La commande '.$order->getReference().' est sous le statut <u>En cours de préparation</u>.</strong></span>");
+        $this->addFlash('Success', "<span style='color:green'><strong>La commande . {$order->getReference()} . est sous le statut <u>En cours de préparation</u>.</strong></span>");
 
         $url = $this->adminUrlGenerator
                         ->setController(OrderCrudController::class)
                         ->setAction('index')
                         ->generateUrl();
-
-        // envoyer un mail
 
         return $this->redirect($url);
     }
@@ -69,14 +68,12 @@ class OrderCrudController extends AbstractCrudController
         $order->setState(3);
         $this->entityManager->flush();
 
-        //$this->addFlash('notice', "<span style='color:orange;'><strong>La commande '.$order->getReference().' est sous le statut <u>Expédiée</u>.</strong></span>");
+        $this->addFlash('Warning', "<span style='color:orange'><strong>La commande .{$order->getReference()}. est sous le statut <u>Expédiée</u>.</strong></span>");
 
         $url = $this->adminUrlGenerator
                         ->setController(OrderCrudController::class)
                         ->setAction('index')
                         ->generateUrl();
-
-        // envoyer un mail
 
         return $this->redirect($url);
     }

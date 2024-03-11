@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classes\MailJet;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,10 +13,12 @@ class CancelController extends AbstractController
 
 {
     private $entityManager;
+    private $mailJet;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, MailJet $mailJet)
     {
         $this->entityManager = $entityManager;
+        $this->mailJet = $mailJet;
     }
 
     #[Route('/commande/cancel/{stripeSessionId}', name: 'cancel_paiment')]
@@ -27,6 +30,9 @@ class CancelController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        // envoyer un mail à notre client pour lui confirmer la commande
+        $this->mailJet->sendSuccessStripe($order->getUser()->getEmail(), $order->getUser()->getFirstname(), $order->getUser()->getLasname());
+        
         return $this->render('stripe/cancel.html.twig',[
             'order' => $order
         ]);
