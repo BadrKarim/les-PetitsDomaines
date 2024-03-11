@@ -36,13 +36,17 @@ class ResetPasswordController extends AbstractController
         }
 
         if ($request->get('email')){
-
+            
             $user = $this->entityManager->getRepository(User::class)->findOneByEmail($request->get('email'));
+            
+            if (!$user){
+                $this->addFlash('danger', 'Cette adresse mail est inconnu');
+                return $this->redirectToRoute('login');
+            }
 
             if ($user){
                 $dateImmutable = new DateTime();
                 $dateImmutable = DateTimeImmutable::createFromMutable($dateImmutable);
-
                 $reset_password = new ResetPassword();
                 $reset_password->setUser($user);
                 $reset_password->setToken(uniqid());
@@ -54,13 +58,12 @@ class ResetPasswordController extends AbstractController
                 $url = $this->generateUrl('password_reset_update', [
                     'token' => $reset_password->getToken()]);
                 $this->mailJet->sendResetPassword($user->getEmail(), $user->getFirstname(), $user->getlasname(), $url);
-            
-                }else {
-                    $this->addFlash('primary', 'Vous allez recevoir un mail');
+
+                $this->addFlash('primary', 'Vous allez recevoir un mail');
+                return $this->redirectToRoute('login');
+
                 }
-        }else {
-            $this->addFlash('danger', 'Cette adresse mail est inconnu');
-        }
+            }
 
         return $this->render('reset_password/index.html.twig');
     }
@@ -68,7 +71,6 @@ class ResetPasswordController extends AbstractController
     #[Route('mot-de-passe-oublie/{token}', name: 'password_reset_update')]
     public function update($token, Request $request, UserPasswordHasherInterface $hasher) :Response
     {
-
         $reset_password = $this->entityManager->getRepository(ResetPassword::class)->findOneByToken($token);
 
         // verifier que le token existe en BD
@@ -96,12 +98,11 @@ class ResetPasswordController extends AbstractController
                 $password = $hasher->hashPassword($reset_password->getUser(), $new_pwd);
                 $reset_password->getUser()->setPassword($password);
                 $this->entityManager->flush();
+            //redirection ver login
+            $this->addFlash('primary', 'votre mots de passe a bien été modifié');
+            return $this->redirectToRoute('login');
         }
         
-        //redirection ver login
-        $this->addFlash('primary', 'votre mots de passe a bien été modifié');
-        return $this->redirectToRoute('login');
-
         return $this->render('reset_password/update.html.twig', [
             'formResetPassword' => $formResetPassword->createView()
         ]);
