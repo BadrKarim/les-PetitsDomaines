@@ -13,7 +13,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class AccountRegisterController extends AbstractController
+class RegisterController extends AbstractController
 {
     private $entityManager;
     private $mailJet;
@@ -58,7 +58,7 @@ class AccountRegisterController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('account/register.html.twig', [
+        return $this->render('register/register.html.twig', [
             'formRegister' => $formRegister->createView()
         ]);
     }
