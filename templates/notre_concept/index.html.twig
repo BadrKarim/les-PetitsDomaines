@@ -5,30 +5,29 @@
 {% block content %}
 
 <div class="container">
-        <h2 class="mt-4">Le concept des Petits domaines</h2>
-        <p class="text-center mt-4">Les Boutiques les Domaines est un concept inédit et unique offrant à nos clients une alimentation saine et qualitative.
-        Le fondement de notre concept, qui est unique au Maroc, se base sur notre intégration et notre capacité à produire nous même les produits que nous commercialisons.
-        Les intrants de la chaine de production sont tous contrôlés pour vous offrir des produits de qualité répondant aux normes et certifications les plus strictes et aussi aux exigences d’une agriculture durable, socialement responsable et respectueuse de l’environnement.
-        Nos fruits, légumes et viandes sont issus d’un circuit ultra-court, garantissant ainsi des produits d’une grande fraicheur dans le respect total de la chaine de froid.
-        Notre réseau compte 5 boutiques situées au cœur des villes de Casablanca, Rabat et Marrakech :</p>
-        <div class="row">
-              
-                <div class="col-md-12">
-                    {% for boutique in boutiques %}
-                        <div class="col-md-6">
-                                <img src="/illustrations/{{ boutique.illustration }}" alt="{{ boutique.name }}" style="width 350px; height 350px">
-                            <div class="text-center">
-                                <ul>
-                                    <li>{{ boutique.name }}</li>
-                                    <li>{{ boutique.address }}</li>
-                                    <li>{{ boutique.telephone }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    {% endfor %}
+    <h2 class="mt-4">Le concept des Petits domaines</h2>
+    <p class="text-center mt-4">Les Boutiques les Domaines est un concept inédit et unique offrant à nos clients une alimentation saine et qualitative.
+    Le fondement de notre concept, qui est unique au Maroc, se base sur notre intégration et notre capacité à produire nous même les produits que nous commercialisons.
+    Les intrants de la chaine de production sont tous contrôlés pour vous offrir des produits de qualité répondant aux normes et certifications les plus strictes et aussi aux exigences d’une agriculture durable, socialement responsable et respectueuse de l’environnement.
+    Nos fruits, légumes et viandes sont issus d’un circuit ultra-court, garantissant ainsi des produits d’une grande fraicheur dans le respect total de la chaine de froid.
+    Notre réseau compte 5 boutiques situées au cœur des villes de Casablanca, Rabat et Marrakech :</p>
+    <div class="row">
+        <div class="col-md-12">
+        <h4>Nos Boutiques</h4>
+            {% for boutique in boutiques %}
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="/illustrations/{{ boutique.illustration }}" alt="{{ boutique.name }}">
+                    <div class="card-body">
+                        <ul>
+                            <li>{{ boutique.name }}</li>
+                            <li>{{ boutique.address }}</li>
+                            <li>{{ boutique.telephone }}</li>
+                        </ul>
+                    </div>
                 </div>
-            
-        </div>
+            {% endfor %}                    
+        </div>  
+    </div>
 </div>
 
 
