@@ -12,10 +12,10 @@ class UserFixtures extends Fixture
     {
         for ($i = 0; $i < 10; $i++){
             $user = new User();
-            $user->setEmail("userTest@domain.fr");
+            $user->setEmail("userTest".$i."@domain.fr");
             $user->setPassword("0000");
-            $user->setFirstname("userFirstname");
-            $user->setLasname("userLasname");
+            $user->setFirstname("userFirstname".$i);
+            $user->setLasname("userLasname".$i);
 
             $manager->persist($user);
         }
