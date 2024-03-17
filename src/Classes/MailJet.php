@@ -49,7 +49,7 @@ class MailJet
         $response->success();
     }
 
-    public function sendResetPassword($to_email, $lastname, $firstname, $url)
+    public function sendResetPassword($to_email, $lastname, $firstname, $content)
     {
         $api_key = $this->params->get('MAILJET_KEY_API_PUBLIC');
         $api_key_secret = $this->params->get('MAILJET_KEY_API_SECRET');
@@ -73,7 +73,9 @@ class MailJet
                     'TemplateID' => 5774322,
                     'TemplateLanguage' => false,
                     'Variables' => [
-                        'confirmation_link' => $url,
+                        "firstname" => $firstname,
+                        "lastname" => $lastname,
+                        "content" => $content
                     ]
                 ]
             ]
