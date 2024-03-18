@@ -57,7 +57,7 @@ class ResetPasswordController extends AbstractController
                 // envoyer un mail avec un lien
                 $urlGenerate = $this->generateUrl('password_reset_update', [
                     'token' => $reset_password->getToken()]);
-                $content = "<a href='$urlGenerate'>Veuillez cliquer sur le bouton pour être rediriger</a>;
+                $content = "<a href='$urlGenerate'>Veuillez cliquer sur le bouton pour être rediriger</a>";
                 $this->mailJet->sendResetPassword($user->getEmail(), $user->getFirstname(), $user->getlasname(), $content);
 
                 $this->addFlash('primary', 'Vous allez recevoir un mail');
