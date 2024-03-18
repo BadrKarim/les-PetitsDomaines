@@ -14,7 +14,7 @@ class HeaderFixtures extends Fixture
 
             $header = new Header();
             $header->setTitle('title'.$i);
-            $header->setContent('votre contenu '.$i.' dans la page home');
+            $header->setContent('votre contenu dans la page home');
             $header->setBtnTitle('boutonTitle '.$i);
             $header->setBtnUrl('boutonUrl '.$i);
             $header->setIllustration('illustration'.$i);
