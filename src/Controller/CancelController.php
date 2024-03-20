@@ -25,6 +25,7 @@ class CancelController extends AbstractController
     public function index($stripeSessionId): Response
     {
         $order = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
+        dd($order);
 
         if (!$order || $order->getUser() != $this->getUser()){
             return $this->redirectToRoute('home');

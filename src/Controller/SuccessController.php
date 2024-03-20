@@ -25,6 +25,7 @@ class SuccessController extends AbstractController
     public function index(Cart $cart, $stripeSessionId): Response
     {
         $order = $this->entityManager->getRepository(Order::class)->findOneByStripeSessionId($stripeSessionId);
+        dd($order->getOrderDetails()); 
 
         if (!$order || $order->getUser() != $this->getUser()){
             return $this->redirectToRoute('home');
@@ -35,14 +36,14 @@ class SuccessController extends AbstractController
             $order->setState(1);
             $this->entityManager->flush();
 
-            // vider le session cart
+            // vider la session cart
             $cart->remove();
         }
 
         // envoyer un mail à notre client pour lui confirmer la commande
-        $this->mailJet->sendSuccessStripe($order->getUser()->getEmail(), $order->getUser()->getFirstname(), $order->getUser()->getLasname());
+        //$this->mailJet->sendSuccessStripe($order->getUser()->getEmail(), $order->getUser()->getFirstname(), $order->getUser()->getLasname());
         
-        //afficher les queleques informations de la commande de l'utilisitateur
+        //afficher les quelques informations de la commande de l'utilisitateur
 
         //dd($order);
         return $this->render('stripe/success.html.twig', [
