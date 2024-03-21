@@ -51,9 +51,11 @@ class SearchType extends AbstractType
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function getBlockPrefix()
     {
-        //return parent::getBlockPrefix();
         return '';
     }
 }
