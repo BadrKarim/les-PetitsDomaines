@@ -41,11 +41,8 @@ class SuccessController extends AbstractController
         }
 
         // envoyer un mail à notre client pour lui confirmer la commande
-        //$this->mailJet->sendSuccessStripe($order->getUser()->getEmail(), $order->getUser()->getFirstname(), $order->getUser()->getLasname());
+        $this->mailJet->sendSuccessStripe($order->getUser()->getEmail(), $order->getUser()->getFirstname(), $order->getUser()->getLasname());
         
-        //afficher les quelques informations de la commande de l'utilisitateur
-
-        //dd($order);
         return $this->render('stripe/success.html.twig', [
             'order' => $order
         ]);

@@ -24,7 +24,6 @@ class AccountAddressController extends AbstractController
     #[Route('/compte/adresses', name: 'address')]
     public function index(): Response
     {
-        //dd($this->getUser());
         return $this->render('account/address.html.twig');
     }
 
@@ -40,7 +39,6 @@ class AccountAddressController extends AbstractController
             $address->setUser($this->getUser());
             $this->entityManager->persist($address);
             $this->entityManager->flush();
-            //dd($address);
 
             // si j'ai un produit dans mon panier redirige moi vers order
             if ($cart->get()) {
@@ -69,7 +67,7 @@ class AccountAddressController extends AbstractController
         $formAddress->handleRequest($request);
     
         if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-            //dd($address);
+            
             $this->entityManager->flush();
             
             return $this->redirectToRoute('address');

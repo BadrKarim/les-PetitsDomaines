@@ -8,7 +8,6 @@
 	<p>Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.</p>
 
 	{% if cart|length > 0 %}
-		{# {{ dump(cart) }} #}
 		<table class="table mt-3">
 			<thead>
 				<tr>
@@ -23,7 +22,6 @@
 			<tbody>
 				{% set total = null %}
 				{% for product in cart %}
-					{# {{ dump(product) }} #}
 					<tr>
 						<th>
 							<img src=" /illustrations/{{ product.product.illustration }} " alt=" {{ product.product.name }} " height="75px"><br />

@@ -10,7 +10,6 @@
 ## Description
 A fullstack shop app with Symfony framework and doctrine orm using twig as template engine.
 
-<!-- ## Requirements -->
 ## Installation
 
 ```bash
@@ -27,11 +26,6 @@ $ symfony server:start
 
 ## Migrations
 
-<!-- # Swagger Document:
-$ http://localhost:8080/swagger-ui/
-
-# make new migration
-$ php bin/console make:migration -->
 ```bash
 # migrate last migration
 $ php bin/console doctrine:migrations:migrate

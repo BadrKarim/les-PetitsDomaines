@@ -7,7 +7,6 @@
 	<h1>Gérer mes adresses</h1>
     <h5>Ajouter une adresse</h5>
 	<a href="{{ path('address')}}">Retour</a>
-	{# {{ dump(app.user) }} #}
 
 	{{ form_start(formAddress) }}
 
@@ -55,7 +54,6 @@
                     const URL = `${baseUrl}?${queryParams}`;
                     const response = await fetch(URL)
                     const data = await response.json()
-                    console.log("voici la data", data.features)//
                     addressDatas = data.features
                     renderAddressList();
                 }

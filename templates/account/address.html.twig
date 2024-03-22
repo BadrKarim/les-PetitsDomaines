@@ -8,7 +8,6 @@
     <a href="{{ path('add_address') }}" class="btn btn-info float-right">Ajouter une adresse</a>
     <p>C'est dans cette espace que vous pouvez gérez vos adresses</p>
     <a href="{{ path('account')}}">Retour</a>
-    {# {{ dump(app.user) }} #}
 
     {% if app.user.addresses|length == 0 %}
 
@@ -18,7 +17,6 @@
 
     {% else %}
 
-    {# {{ dump(app.user.adress) }} #}
         <div class="row">
 
             {% for address in  app.user.addresses %}

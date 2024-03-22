@@ -64,7 +64,7 @@ class OrderController extends AbstractController
             $delivery_content .= '<br/>' . $delivery->getPostal() . ' ' . $delivery->getCity();
             $delivery_content .= '<br/>' . $delivery->getCountry();
 
-            //Enregistrer ma commande Order()
+            //Enregistrer Order
             $order = new Order();
             $order->setUser($this->getUser());
             $order->setCreatedAt($dateImmutable);
@@ -76,7 +76,7 @@ class OrderController extends AbstractController
             $order->setReference($reference);
             $this->entityManager->persist($order);
 
-            //Enregistrer mon entity OrderDetails
+            //Enregistrer OrderDetails
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails;
                 $orderDetails->setMyOrder($order);

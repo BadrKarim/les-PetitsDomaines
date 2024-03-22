@@ -62,9 +62,8 @@ class ResetPasswordController extends AbstractController
 
                 $this->addFlash('primary', 'Vous allez recevoir un mail');
                 return $this->redirectToRoute('login');
-
-                }
             }
+        }
 
         return $this->render('reset_password/index.html.twig');
     }

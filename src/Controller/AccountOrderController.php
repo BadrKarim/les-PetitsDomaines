@@ -22,7 +22,6 @@ class AccountOrderController extends AbstractController
     {
         $orders = $this->entityManager->getRepository(Order::class)->findSuccessOrders($this->getUser());
 
-        //dd($orders);
         return $this->render('account/order.html.twig', [
             'orders' => $orders
         ]);
@@ -37,7 +36,6 @@ class AccountOrderController extends AbstractController
             return $this->redirectToRoute('account_order');
         }
 
-        //dd($orders);
         return $this->render('account/orderShow.html.twig', [
             'order' => $order
         ]);
